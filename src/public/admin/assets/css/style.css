@@ -1130,7 +1130,7 @@ h5 {
 }
 
 .nav > li > a {
-  color: #a7b1c2;
+  color: #fff;
   font-weight: 600;
   padding: 14px 20px 14px 25px;
   display: block;
@@ -1152,13 +1152,17 @@ h5 {
 }
 
 .nav > li.active > a {
+  color: rgb(58, 236, 13);
+}
+
+.navbar-default .nav > li {
   color: #ffffff;
 }
 
 .navbar-default .nav > li > a:hover,
 .navbar-default .nav > li > a:focus {
-  background-color: #124880;
-  color: white;
+  background-color: #5A3E8C;
+  color: rgb(58, 236, 13);
 }
 
 .nav .open > a,
@@ -1308,7 +1312,7 @@ h5 {
 
 .nav-header {
   padding: 25px 25px;
-  background: #FFD400;
+  background: #451f84;
   /* background-image: url("patterns/header-profile.png"); */
 }
 
@@ -1336,7 +1340,8 @@ ul.nav-second-level {
 }
 
 .nav > li.active {
-  background: #124880;
+  background: #5A3E8C;
+  color: rgba(58, 236, 13);
 }
 
 .nav.nav-second-level > li.active {
@@ -5498,7 +5503,7 @@ samp {
 
 body {
   font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  background-color: #007bff;
+  background-color: #5A3E8C;
   font-size: 13px;
   color: #676a6c;
   overflow-x: hidden;
@@ -12489,7 +12494,7 @@ ul.pagination > li > span {
 }
 
 .login {
-  width: 500px;
+  width: 600px;
   margin-left: auto;
   margin-right: auto;
   background-color: #fff;
@@ -12501,8 +12506,8 @@ ul.pagination > li > span {
 }
 
 .bg_logo_login {
-  background-color: #FFD400;
-  height: 140px;
+  background-color: #462085;
+  height: 220px;
   border-radius: 6px;
 }
 

@@ -5,7 +5,6 @@ import { NextFunction, Response, Request } from "express";
 import messages from "@Custom_message/index";
 import userModel from "@models/user";
 import sessionModel from "@models/session";
-import appVersionModal from "@models/appVersion";
 
 declare module 'express' {
   export interface Request {
@@ -16,7 +15,6 @@ declare module 'express' {
 const verifyAuthToken = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const accessToken = req.headers.authorization;
-    const { devicetype, currentversion } = req.headers;
     if (!accessToken) {
       return res.status(StatusCodes.UNAUTHORIZED).json({
         error: messages.noToken,
@@ -70,25 +68,6 @@ const verifyAuthToken = async (req: Request, res: Response, next: NextFunction) 
           status: true
         });
         if (checkSession) {
-          const check_appVersion: any = await appVersionModal.findOne({ isDelete: false });
-          if (check_appVersion) {
-            if (devicetype && devicetype == 'android' && currentversion && check_appVersion.androidVersion != currentversion && check_appVersion.androidUpdate_Type == 'Force') {
-              return res.status(StatusCodes.HTTP_VERSION_NOT_SUPPORTED).json({
-                error: messages.updatedVersion_available,
-                message: messages.updatedVersion_available,
-                versionType: check_appVersion.versionStatus_android,
-                code: StatusCodes.HTTP_VERSION_NOT_SUPPORTED,
-              });
-            }
-            if (devicetype && devicetype == 'ios' && currentversion && check_appVersion.iosVersion != currentversion && check_appVersion.iosUpdate_Type == 'Force') {
-              return res.status(StatusCodes.HTTP_VERSION_NOT_SUPPORTED).json({
-                error: messages.updatedVersion_available,
-                message: messages.updatedVersion_available,
-                versionType: check_appVersion.versionStatus_ios,
-                code: StatusCodes.HTTP_VERSION_NOT_SUPPORTED,
-              });
-            }
-          }
           req.user = verified;
           next();
           return;

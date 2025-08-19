@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Admin | HI_ASTRO</title>
+    <title>Admin | SIREN</title>
     <link rel="icon" href="../../admin/assets/img/astro.png" type="image" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link href="../../admin/assets/css/bootstrap.min.css" rel="stylesheet" />
@@ -76,7 +76,7 @@
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
                         <li>
-                            <span class="m-r-sm text-muted welcome-message">Welcome to HI_ASTRO Admin
+                            <span class="m-r-sm text-muted welcome-message">Welcome to SIREN Admin
                             </span>
                         </li>
                         <li>
@@ -180,7 +180,7 @@
                                 <div class="form-group">
                                     <label>Subscription Amount</label>
                                     <input type="number" class="form-control" id="amount1" name='amount1'
-                                        placeholder="Enter Amount" maxlength="50" required>
+                                        placeholder="Enter Amount" maxlength="50" step="0.001" required>
                                     <h6 style="text-align: right;">50 Characters Max</h6>
                                 </div>
                                 <!-- REPLACED FEATURES INPUT -->
@@ -188,7 +188,8 @@
                                     <label>Features</label>
                                     <div class="input-group" style="display:flex; gap:10px;">
                                         <input type="text" id="featureInput1" class="form-control"
-                                            placeholder="Enter feature" maxlength="50">
+                                            placeholder="Enter feature" maxlength="50"
+                                            oninput="this.value = this.value.replace(/[^a-zA-Z0-9_]/g, '')">
                                         <button type="button" class="btn btn-primary" id="addFeatureBtn1">+ Add</button>
                                     </div>
                                     <div id="featureList1" style="margin-top:10px;"></div>
@@ -198,7 +199,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-white" >Submit</button>
+                        <button type="submit" class="btn btn-white">Submit</button>
                     </div>
                 </div>
             </div>
@@ -221,7 +222,7 @@
                                 <div class="form-group">
                                     <label>Title</label>
                                     <input type="text" class="form-control" id="title" name='title'
-                                        placeholder="Enter Name" maxlength="30" required >
+                                        placeholder="Enter Name" maxlength="30" required>
                                     <h6 style="text-align: right;">30 Characters Max</h6>
                                 </div>
                                 <div class="form-group">
@@ -235,8 +236,9 @@
                                 <div class="form-group">
                                     <label>Subscription Amount</label>
                                     <input type="number" class="form-control" id="amount" name='amount'
-                                        placeholder="Enter Amount" maxlength="50"
-                                        oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                                        placeholder="Enter Amount" maxlength="50" step="0.001" required
+                                        oninvalid="this.setCustomValidity('Please enter valid value')"
+                                        oninput="this.setCustomValidity('')">
                                     <h6 style="text-align: right;">50 Characters Max</h6>
                                 </div>
                                 <div class="form-group d-none">
@@ -250,7 +252,8 @@
                                     <label>Features</label>
                                     <div class="input-group" style="display:flex; gap:10px;">
                                         <input type="text" id="featureInput" class="form-control"
-                                            placeholder="Enter feature" maxlength="50">
+                                            placeholder="Enter feature" maxlength="50"
+                                            oninput="this.value = this.value.replace(/[^a-zA-Z0-9_]/g, '')">
                                         <button type="button" class="btn btn-primary" id="addFeatureBtn">+ Add</button>
                                     </div>
                                     <div id="featureList" style="margin-top:10px;"></div>
@@ -431,18 +434,26 @@
             });
         });
 
-           document.getElementById('form').addEventListener('submit', function (e) {
-                e.preventDefault(); 
-                submitEditSubscription();
-            });
+        document.getElementById('form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            submitEditSubscription();
+        });
 
-           document.getElementById('form1').addEventListener('submit', function (e) {
-                e.preventDefault(); 
-                addSubscription();
-            });
-
-
+        document.getElementById('form1').addEventListener('submit', function (e) {
+            e.preventDefault();
+            addSubscription();
+        });
     </script>
+    <style>
+        .task-item:focus-within {
+            border: 1px solid lightgreen;
+            box-shadow: 0 0 4px rgba(0, 200, 0, 0.3);
+        }
+
+        .task-item span[contenteditable="true"]:focus {
+            outline: none;
+        }
+    </style>
 </body>
 
 </html>

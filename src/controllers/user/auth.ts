@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import messages from "@Custom_message/index";
-import { userModel, sessionModel, chat_room_messageModel } from "@models/index";
+import { userModel, sessionModel, chat_room_participantModel, chat_room_messageModel, chat_roomModel } from "@models/index";
 import { CustomError } from "@utils/errors";
-import { generate_accessToken, generate_refreshToken, generate_timestamp_In_seconds, identityGenerator, left_all_rooms, offline_online_all_rooms } from "@utils/helpers";
+import { delete_user_all_data, generate_accessToken, generate_refreshToken, generate_timestamp_In_seconds, identityGenerator, left_all_rooms } from "@utils/helpers";
 import argon2 from "argon2";
 import { StatusCodes } from "http-status-codes";
 const { CREATED, OK } = StatusCodes;
 import jwt from 'jsonwebtoken';
-import { uploadSingleImage } from '@utils/multer';
+import { deleteGroupFolder, uploadSingleImage } from '@utils/multer';
 
 /**** 
  * usingPasswordKey:
@@ -110,7 +110,6 @@ const userLogin = async (req: Request, res: Response, next: NextFunction) => {
                     delete res_obj.password1;
                     delete res_obj.password2;
                     await userModel.updateOne({ _id: userDetails._id }, { onlineStatus: true, loginTimeStamp: generate_timestamp_In_seconds() });
-                    await offline_online_all_rooms({ userId: userDetails._id, status: 'online', name: userDetails.name });
                     res.status(OK).json({ data: res_obj, code: OK, message: messages.loginSuccessful });
                 } else if (await argon2.verify(userDetails.password2, password + "" + process.env.Password_Secret_Key)) {
                     session_obj.refreshToken = generate_refreshToken(res_obj._id, 'user', 2, 2);
@@ -143,10 +142,6 @@ const userLogin = async (req: Request, res: Response, next: NextFunction) => {
         next(err);
     }
 }
-const dd = async () => {
-    await chat_room_messageModel.deleteMany({ messageType: { $in: ['online', 'offline'] } })
-}
-// dd();
 
 const userInfo = async (req: any, res: Response, next: NextFunction) => {
     try {
@@ -197,8 +192,7 @@ const logout = async (req: any, res: Response, next: NextFunction) => {
         const user_sessionDetails = await sessionModel.findOne({ accessToken: authorization }, { refreshToken: 1, userId: 1, accessToken: 1 });
         if (user_sessionDetails) {
             await sessionModel.updateMany({ refreshToken: user_sessionDetails.refreshToken }, { isDelete: true, status: false });
-            const user_details = await userModel.findOneAndUpdate({ _id: user_sessionDetails.userId }, { onlineStatus: false });
-            await offline_online_all_rooms({ userId: user_sessionDetails.userId, status: 'offline', name: user_details?.name ?? '' });
+            await userModel.updateOne({ _id: user_sessionDetails.userId }, { onlineStatus: false });
             res.status(OK).json({ code: OK, message: messages.logoutSuccessful });
         } else {
             throw new CustomError(messages.invalidToken, StatusCodes.UNAUTHORIZED);

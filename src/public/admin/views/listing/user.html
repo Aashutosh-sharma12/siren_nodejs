@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Admin | HI_ASTRO</title>
+  <title>Admin | SIREN</title>
   <link rel="icon" href="../../admin/assets/img/astro.png" type="image" />
 
   <!-- Include jQuery -->
@@ -77,7 +77,7 @@
           </div>
           <ul class="nav navbar-top-links navbar-right">
             <li>
-              <span class="m-r-sm text-muted welcome-message">Welcome to HI_ASTRO Admin
+              <span class="m-r-sm text-muted welcome-message">Welcome to SIREN Admin
               </span>
             </li>
             <li>
@@ -93,7 +93,7 @@
         <div class="col-lg-8">
           <div class="d-flex align-items-center mt-3 justify-content-end">
             <input type="text" style="width: 400px; height: 38px; margin-right: 4px" class="form-control"
-              oninput="validate(this)" placeholder="Search by User Name,CustomerId Or Phone Number" name="search"
+              oninput="validate(this)" placeholder="Search by User Name, CustomerId, Phone Number and Email" name="search"
               id="fog" />
             <button style="margin-right: 25px" type="button" id="btnId" class="btn btn-info btn-lg"
               onclick="userList();">
@@ -102,7 +102,6 @@
           </div>
         </div>
       </div>
-
       <div id="data" class="wrapper wrapper-content animated fadeInRight">
         <div class="ibox-content rounded_md">
           <div class="sk-spinner sk-spinner-double-bounce">
@@ -157,8 +156,7 @@
           <div class="modal-body">
             <div class="row">
               <div class="col-lg-4 col-md-5 col-12 form-group" style="text-align: left;">
-                <p>please choose image in ratio<br>(width:200px , height:200px)</p>
-                <img id="blah1" src="../../admin/assets/img/emptyphoto.png" alt="" style="width:200px; height:200px; "
+                <img id="blah1" src="../../admin/assets/img/profileImage.png" alt="" style="width:200px; height:200px; "
                   aria-disabled="true"><br>
                 <!-- <input type='file' accept="image/*" name='image' id="blah1" onchange="readURL1(this)"> -->
               </div>
@@ -167,16 +165,15 @@
                   <label>Name</label>
                   <input type="text" class="form-control" id="name1" name='name1' placeholder="Enter Name"
                     maxlength="30" readonly>
-                  <h6 style="text-align: right;">30 Characters Max</h6>
+                  <h6 style="text-align: right;"></h6>
                 </div>
                 <div class="form-group">
                   <label>Email</label>
                   <input type="text" class="form-control" id="email1" name='email1' placeholder="Enter Email"
                     maxlength="50" readonly>
-                  <h6 style="text-align: right;">50 Characters Max</h6>
+                  <h6 style="text-align: right;"></h6>
                 </div>
                 <div class="form-group">
-
                   <h4>Country Code / Phone No.</h4>
                   <div class="row mx-0">
                     <div class="col-3 tell-code pl-1">
@@ -187,17 +184,16 @@
                         placeholder="Enter  Contact Number" minlength="10" maxlength="10" readonly>
                     </div>
                   </div>
-
                 </div>
                 <div class="form-group">
                   <label>Status</label>
-                  <select class="form-control" id="status1" name="status1" disabled>
+                  <select class="form-control" id="status1" name="status1" disabled
+                          style="appearance:none;-webkit-appearance:none;-moz-appearance:none;background-image:none;">
                     <option value=true>Active</option>
                     <option value=false>Inactive</option>
                   </select>
                 </div>
               </div>
-
             </div>
           </div>
           <div class="modal-footer">

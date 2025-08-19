@@ -32,14 +32,9 @@ const nsp = io.of(`${process.env.ChannelName}`)
 export const notify_to_connected_users = async (data: any) => {
   try {
     for (let u of data) {
-      if (u.messageType == 'online' || u.messageType == 'offline') {
-        nsp.to(u.roomId).emit('user_notification', u);
-        console.log("Notification sent to user for online/offline:", u);
-      } else {
-        await chat_room_messageModel.create(u);
-        nsp.to(u.roomId).emit('user_notification', u);
-        console.log("Notification sent to user:", u);
-      }
+      await chat_room_messageModel.create(u);
+      nsp.to(u.roomId).emit('user_notification', u);
+      console.log("Notification sent to user:", u);
     }
   } catch (err) {
     console.error("Error notifying connected users:", err);

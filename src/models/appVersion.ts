@@ -1,8 +1,8 @@
 import { model, Schema } from "mongoose"
 
 interface appVersion {
-    androidVersion:number;
-    iosVersion:number;
+    androidVersion:string;
+    iosVersion:string;
     androidUpdate_Type:string;
     iosUpdate_Type:string;  
     isDelete: boolean;
@@ -10,8 +10,8 @@ interface appVersion {
 }
 
 const appVersionSchema = new Schema<appVersion>({
-    androidVersion:{type:Number, default:1},
-    iosVersion:{type:Number, default:1},
+    androidVersion:{type:String, default:"1"},
+    iosVersion:{type:String, default:"1"},
     androidUpdate_Type:{type:String, default:"Force", enum:["Force", "Normal"] },
     iosUpdate_Type:{type:String, default:"Force", enum:["Force", "Normal"]},
 }, {

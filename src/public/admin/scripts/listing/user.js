@@ -389,7 +389,7 @@ function View(userId) {
         document.getElementById('mobile').value = data.data.phoneNumber ? data.data.phoneNumber : "N/A";
         document.getElementById('countryCode').value = data.data.countryCode;
         document.getElementById('status1').value = data.data.isActive;
-        document.getElementById('blah1').src = data.data.image ? data.image_baseUrl + "/" + data.data.image : "../../admin/assets/img/emptyphoto.png";
+        document.getElementById('blah1').src = data.data.image ? data.image_baseUrl + "/" + data.data.image : "../../admin/assets/img/profileImage.png";
     }).fail(function (jqXHR, textStatus, errorThrown) {
         // If fail
         // alert(jqXHR.responseJSON.error)

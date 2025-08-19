@@ -10,8 +10,10 @@ import mongoose from "mongoose";
 const { OK, CREATED } = StatusCodes
 const listUser = async (req: any, res: Response, next: NextFunction) => {
   try {
+    console.log('inside api')
     const todayDate = dayjs().format('YYYY-MM-DD');
     const { search, status, page = 1, perPage = 10, fromDate, toDate, type, loggedIn, subscribed } = req.query;
+    console.log(search)
     const obj: any = {
       isDelete: false,
     };
@@ -22,12 +24,15 @@ const listUser = async (req: any, res: Response, next: NextFunction) => {
       obj.loginKey = type == 2 ? 2 : { $in: [0, 1] }
     }
     if (search && search !== "" && search !== undefined) {
+      const search1 = search.trim()
       obj.$or = [
-        { name: { $regex: search, $options: "i" } },
-        { email: { $regex: search, $options: "i" } },
-        { phoneNumber: { $regex: search, $options: "i" } },
-        { uniqueId: { $regex: search, $options: "i" } }
+        { name: { $regex: search1, $options: "i" } },
+        { email: { $regex: search1, $options: "i" } },
+        { phoneNumber: { $regex: search1, $options: "i" } },
+        { uniqueId: { $regex: search1, $options: "i" } },
+        { $expr: { $regexMatch: { input: { $concat: ["$countryCode", "$phoneNumber"] }, regex: search1, options: "i" } } }
       ]
+      
     }
     if (fromDate && toDate) {
       const fromDate1 = new Date(fromDate)
