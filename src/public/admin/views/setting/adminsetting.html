@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .center {
+            margin: auto;
+            width: 60%;
+            /* border: 3px solid #73AD21; */
+            padding: 10px;
+        }
+    </style>
+
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin | HI_ASTRO</title>
+    <link rel="icon" href="../../admin/assets/img/astro.png" type="image">
+
+    <link href="../../admin/assets/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../../admin/scripts/common/pipeline.js"></script>
+    <script src="../../admin/scripts/common/validation.js"></script>
+    <link href="../../admin/assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <script src="../../admin/scripts/setting/adminsetting.js"></script>
+    <script src="../../admin/scripts/auth/logout.js"></script>
+</head>
+
+<body onload="classActive();app_settingdetails()">
+    <div id="wrapper" style="display: none;">
+        <navbar></navbar>
+        <div id="page-wrapper" class="gray-bg">
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <!-- <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a> -->
+                        <form role="search" class="navbar-form-custom" action="search_results.html">
+                        </form>
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li>
+                            <span class="m-r-sm text-muted welcome-message">Welcome to HI_ASTRO Admin </span>
+                        </li>
+
+                        <li><a class="dropdown-item" onclick="logout()">Logout <img
+                                    src="../../../admin/assets/img/logout .png" /></a></li>
+                    </ul>
+
+                </nav>
+            </div>
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2><strong>Application Setting </strong></h2>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="dashboard">Home</a>
+                        </li>
+
+                        <li class="breadcrumb-item active">
+                            <strong>Application Setting </strong>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="tab-content container-fluid" style="width: 80%">
+                    <div class="mainbox col-md-10  mx-auto margin-top-2 margin-bottom-3">
+
+                        <div class="panel panel-primary " style="margin-top: 25px">
+                            <div class="panel-heading">
+                                <h3 style="color: white; ">Application Setting</h3>
+                            </div>
+                            <div class="ibox-content">
+                                <form id="appSettingsForm" onsubmit="update(); return false;">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <h4>Android User Version</h4>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" placeholder="User Android Version"
+                                                    id="user_A" name="user_A" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <h4>Android User Update Type</h4>
+                                            <select class="form-control" style="width:80%" name="userA_status"
+                                                id="userA_status" required>
+                                                <option value="">-- Select --</option>
+                                                <option value="Normal">Normal</option>
+                                                <option value="Force">Force</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <h4>iOS User Version</h4>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" placeholder="User iOS Version"
+                                                    id="user_I" name="user_I" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <h4>iOS User Update Type</h4>
+                                            <select class="form-control" style="width:80%" name="userI_status"
+                                                id="userI_status" required>
+                                                <option value="">-- Select --</option>
+                                                <option value="Normal">Normal</option>
+                                                <option value="Force">Force</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary btn-lg">Update</button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <footer></footer>
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="../../admin/assets/js/jquery-3.1.1.min.js"></script>
+    <script src="../../admin/assets/js/popper.min.js"></script>
+    <script src="../../admin/assets/js/bootstrap.js"></script>
+    <script src="../../admin/assets/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="../../admin/assets/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Peity -->
+    <script src="../../admin/assets/js/plugins/peity/jquery.peity.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="../../admin/assets/js/inspinia.js"></script>
+    <script src="../../admin/assets/js/plugins/pace/pace.min.js"></script>
+    <script src="assets/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+    <!-- iCheck -->
+    <script src="../../admin/assets/js/plugins/iCheck/icheck.min.js"></script>
+
+    <!-- Peity -->
+    <script src="../../admin/assets/js/demo/peity-demo.js"></script>
+    <script>
+        var host = window.location.protocol + "//" + window.location.host;
+        var token = sessionStorage.getItem("token")
+        if (!token) {
+            // localStorage.removeItem("token");
+            window.location.replace("/admin/login");
+        }
+        function classActive() {
+            this.setTimeout(() => {
+                const arrowIcon = document.querySelector("#setting-nav .arrow");
+                arrowIcon.classList.toggle("rotate-arrow");
+                if (
+                    document.getElementById("collapse").className == "nav nav-second-level collapse" ||
+                    document.getElementById("collapse").className == "nav nav-second-level collapse in"
+                )
+                    document.getElementById("collapse")?.classList.add("in");
+                document.getElementById("setting-nav")?.classList.add("active");
+                document
+                    .getElementById("app-nav")
+                    ?.classList.add("active");
+            }, 1500);
+        }
+
+    </script>
+    <style>
+        #appSettingsForm {
+            margin: 0;
+            padding: 0;
+            border: none;
+        }
+        #appSettingsForm .modal-footer {
+            border-top: none;
+            padding-top: 0;
+        }
+    </style>
+    
+
+</body>
+
+</html>

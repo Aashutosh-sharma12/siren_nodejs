@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Admin | HI_ASTRO</title>
+    <link rel="icon" href="../../admin/assets/img/astro.png" type="image" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="../../admin/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../admin/assets/css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../../admin/assets/paginate/pagination.min.css" />
+    <!-- Include jQuery -->
+    <link href="../../admin//assets/css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+
+    <!-- Day.js -->
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <!-- js files -->
+    <script src="../../admin/scripts/common/pipeline.js"></script>
+    <script src="../../admin/scripts/common/validation.js"></script>
+    <script src="../../admin/scripts/auth/logout.js"></script>
+    <script src="../../admin/scripts/listing/user.js"></script>
+
+    <style type="text/css">
+        .container {
+            margin: 100px auto;
+        }
+
+        #fog::placeholder {
+            font-size: 12px;
+        }
+
+        .edit_cat_file {
+            position: absolute;
+            top: 0px;
+            height: 200px;
+            width: 205px;
+            left: 13px;
+            opacity: 0;
+            z-index: -1;
+            cursor: pointer;
+        }
+
+        .edit_cancel {
+            border-color: #1ab394;
+            color: #1ab394;
+            padding: 5px 25px;
+            border-radius: 8px;
+        }
+
+        input[type="file" i] {
+            width: 174px;
+        }
+
+        @media only screen and (max-width: 992px) {
+            .lastline {
+                margin: 0px !important;
+                width: 100% !important;
+                display: inline-block !important;
+            }
+        }
+    </style>
+</head>
+
+<body onload="subList();">
+    <div id="wrapper" style="display: none">
+        <navbar></navbar>
+        <div id="page-wrapper" class="gray-bg">
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 menuBtn" href=""><i class="fa fa-bars"></i>
+                        </a>
+                        <form role="search" class="navbar-form-custom" action="search_results.html"></form>
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li>
+                            <span class="m-r-sm text-muted welcome-message">Welcome to HI_ASTRO Admin
+                            </span>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" onclick="logout()">Logout <img
+                                    src="../../../admin/assets/img/logout .png" /></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-4">
+                    <h2><strong>All User Subscription </strong></h2>
+                </div>
+                <!-- <div class="col-lg-8">
+                    <div class="d-flex align-items-center mt-3 justify-content-end">
+                        <input type="text" style="width: 400px; height: 38px; margin-right: 4px" class="form-control"
+                            oninput="validate(this)" placeholder="Search by Subscription Name Or Id" name="search"
+                            id="fog" />
+                        <button style="margin-right: 25px" type="button" id="btnId" class="btn btn-info btn-lg"
+                            onclick="subList();">
+                            <strong>Search</strong>
+                        </button>
+                    </div>
+                </div> -->
+            </div>
+
+            <div id="data" class="wrapper wrapper-content animated fadeInRight">
+                <div class="ibox-content rounded_md">
+                    <div class="sk-spinner sk-spinner-double-bounce">
+                        <div class="sk-double-bounce1"></div>
+                        <div class="sk-double-boun ce2"></div>
+                    </div>
+                    <div class="table-responsive storeTypetable border-none">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <!-- <th style="width: 5%"><strong>#SNo.</strong></th> -->
+                                    <th style="width: 5%"><strong>SubscriptionId</strong></th>
+                                    <!-- <th style="width: 5%"><strong>Image</strong></th> -->
+                                    <th style="width: 15%"><strong>Subscription Name</strong></th>
+                                    <th style="width: 15%"><strong>Subscription Amount</strong></th>
+                                    <th style="width: 15%"><strong>Subscription Type</strong></th>
+                                    <th style="width: 15%"><strong>Created At</strong></th>
+                                    <th style="width: 15%"><strong> Start Date</strong></th>
+                                    <th style="width: 15%"><strong> End Date</strong></th>
+                                    <th style="width: 15%"><strong> Status</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody id="table"></tbody>
+                        </table>
+                    </div>
+                    <div id="loader1" class="loader" style="display: block"></div>
+                    <div class="hide text-center" style="display: none" id="noData" role="alert">
+                        <div class="d-flex h_fit_nodata align-items-center justify-content-center">
+                            <img src="../../../admin/assets/img/noDataFound.avif" alt="no data found"
+                                class="no_Data_Found" />
+                        </div>
+                    </div>
+                </div>
+                <div class="box mt-4 mb-4" id="page1">
+                    <ul id="example-1" class="pagination"></ul>
+                </div>
+            </div>
+            <footer></footer>
+        </div>
+    </div>
+
+    <!-- Add Modal -->
+    <div class="modal inmodal fade" id="myModal12" tabindex="-1" role="dialog" aria-hidden="true">
+        <form id="form" method="post" enctype="text/plain" role="form">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span
+                                aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">Add Subscription</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-7 col-12">
+                                <div class="form-group">
+                                    <label>Title</label>
+                                    <input type="text" class="form-control" id="name" name='name'
+                                        placeholder="Enter Name" maxlength="30">
+                                    <h6 style="text-align: right;">30 Characters Max</h6>
+                                </div>
+                                <div class="form-group">
+                                    <label>Subscription Type</label>
+                                    <select class="form-control" id="sub_type" name="sub_type1">
+                                        <option value='monthly'>Monthly</option>
+                                        <option value='6-months'>6-Months</option>
+                                        <option value='yearly'>Yearly</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Subscription Amount</label>
+                                    <input type="text" class="form-control" id="amount1" name='amount1'
+                                        placeholder="Enter Email" maxlength="50">
+                                    <h6 style="text-align: right;">50 Characters Max</h6>
+                                </div>
+                                <!-- REPLACED FEATURES INPUT -->
+                                <div class="form-group">
+                                    <label>Features</label>
+                                    <div class="task-input-wrapper" style="display:flex; gap:10px;">
+                                        <input type="text" id="featureInput" class="form-control"
+                                            placeholder="Enter feature" maxlength="50">
+                                        <button type="button" class="btn btn-primary" id="addFeatureBtn">+ Add</button>
+                                    </div>
+                                    <div id="featureList" style="margin-top:10px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-white">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="../../admin/assets/js/bootstrap.js"></script>
+    <!-- Peity -->
+    <script type="text/javascript" src="../../admin/assets/paginate/pagination.min.js"></script>
+    <script src="assets/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+    <script>
+        var token = sessionStorage.getItem("token");
+        var host = window.location.protocol + "//" + window.location.host;
+        if (!token) {
+            sessionStorage.removeItem("token");
+            window.location.replace("/admin/login");
+        }
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                if (document.getElementById("fog").value) {
+                    document.getElementById("btnId").click();
+                }
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const featureInput = document.getElementById('featureInput');
+            const addFeatureBtn = document.getElementById('addFeatureBtn');
+            const featureList = document.getElementById('featureList');
+            let featureCount = 0;
+
+            function createFeatureItem(text) {
+                featureCount++;
+                const div = document.createElement('div');
+                div.className = 'task-item';
+                div.style.display = 'flex';
+                div.style.alignItems = 'center';
+                div.style.justifyContent = 'space-between';
+                div.style.border = '1px solid #eee';
+                div.style.borderRadius = '6px';
+                div.style.padding = '8px 12px';
+                div.style.marginTop = '5px';
+                div.style.background = '#fff';
+
+                const span = document.createElement('span');
+                span.textContent = `${featureCount}. ${text}`;
+                span.contentEditable = true;
+                span.style.flex = '1';
+
+                const removeBtn = document.createElement('button');
+                removeBtn.type = 'button';
+                removeBtn.className = 'btn btn-sm btn-danger';
+                removeBtn.innerHTML = '🗑';
+                removeBtn.onclick = () => {
+                    div.remove();
+                    reorderFeatures();
+                };
+
+                div.appendChild(span);
+                div.appendChild(removeBtn);
+                return div;
+            }
+
+            function reorderFeatures() {
+                const items = featureList.querySelectorAll('.task-item span');
+                featureCount = 0;
+                items.forEach((span) => {
+                    featureCount++;
+                    const text = span.textContent.split('. ').slice(1).join('. ');
+                    span.textContent = `${featureCount}. ${text}`;
+                });
+            }
+
+            addFeatureBtn.addEventListener('click', () => {
+                const text = featureInput.value.trim();
+                if (text) {
+                    featureList.appendChild(createFeatureItem(text));
+                    featureInput.value = '';
+                    featureInput.focus();
+                }
+            });
+
+            document.getElementById('form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const features = [];
+                featureList.querySelectorAll('.task-item span').forEach(span => {
+                    features.push(span.textContent.split('. ').slice(1).join('. '));
+                });
+                console.log('Submitted Features:', features);
+            });
+        });
+    </script>
+</body>
+
+</html>
