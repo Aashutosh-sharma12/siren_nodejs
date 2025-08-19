@@ -1,6 +1,6 @@
 
 import appVersionModal from "@models/appVersion";
-
+//d
 function addVersion(body: any, headers: any): Promise<any> {
     return new Promise(async (resolve, reject) => {
         try {
@@ -22,7 +22,7 @@ function getAppVersion(headers: any): Promise<any> {
     return new Promise(async (resolve, reject) => {
         try {
             const data = await appVersionModal.findOne({ isDelete: false });
-            resolve(data);    
+            resolve(data);
         }
         catch (error) {
             reject(error);
