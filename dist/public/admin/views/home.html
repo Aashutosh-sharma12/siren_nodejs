@@ -1,0 +1,2126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RO_Kart</title>
+
+    <link rel="icon" href="../../admin/assets/img/menu_logo.svg" type="image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Link Aqua Kana font from Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Aqua+Kana&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Link Quantico font from Google Fonts -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Quantico:wght@300;400;500;600;700;800&display=swap"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Include Tailwind CSS via CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <!-- <link href="../../admin/assets/css/bootstrap.min.css" rel="stylesheet"> -->
+    <!-- <link href="../../admin/assets/css/style.css" rel="stylesheet"> -->
+    <script src="../../admin/scripts/details_views/home.js"></script>
+
+    <style>
+      /* Custom Tailwind CSS utilities */
+      @tailwind base;
+      @tailwind components;
+      @tailwind utilities;
+
+      .font-aquakana {
+        font-family: "Aqua Kana", sans-serif;
+      }
+
+      .font-quantico {
+        font-family: "Quantico", sans-serif;
+      }
+
+      .bgYellow {
+        background-color: #ffd400;
+      }
+
+      .txtYellow {
+        color: #fcd202;
+      }
+
+      .bgSky {
+        background-color: #00a2d3;
+      }
+
+      .bgLogo {
+        background-color: #f5f5f5;
+      }
+
+      .bgHeader {
+        background-color: #222222;
+      }
+
+      .border-yellow {
+        border-color: #ffd400;
+      }
+
+      .border-sky {
+        border-color: #00a2d3;
+      }
+
+      .mainContainer {
+        max-width: 1020px;
+      }
+
+      .menu:hover {
+        background-color: #ffd400;
+        transition: 0.3s ease-in-out;
+      }
+
+      #home {
+        background-color: #ffd400;
+      }
+
+      #home h4 {
+        color: #000 !important;
+      }
+
+      .menu:hover h4 {
+        color: #000;
+        transition: 0.3s ease-in-out;
+      }
+
+      .borderFull {
+        border: 1px solid #414141;
+      }
+
+      .txtFooter {
+        color: #caced0;
+      }
+
+      .bgFooter {
+        background-color: #171717;
+      }
+
+      .txtRoCart {
+        color: #f4f4f4;
+      }
+
+      .min-w-10 {
+        min-width: 40px;
+      }
+
+      .bgWhatsApp {
+        background-color: #03918a;
+      }
+
+      .borderRight {
+        border-right: 1px solid #515050;
+      }
+
+      .bgRafer {
+        background-image: url("../../admin/assets/img/images/bgRefer.png");
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+
+      .h-80vh {
+        height: 80vh;
+      }
+
+      .bgCopyButton {
+        background-color: #f1ca44;
+      }
+
+      .bgFormHeader {
+        background-color: #f0bc5e;
+      }
+
+      /* dropdown  */
+
+      .service .dropdown {
+        min-width: 15em;
+        position: relative;
+        top: 0;
+      }
+
+      .service .select {
+        background: #fff;
+        color: #000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px #00a2d3 solid;
+        border-radius: 0.5em;
+        padding: 0.7em;
+        cursor: pointer;
+        transition: 0.3s;
+        border-radius: 12px;
+      }
+
+      .service .select-clicked {
+        border: 2px #26489a solid;
+        box-shadow: 0 0 0.8em #26489a;
+      }
+
+      .service .select:hover {
+        background: #fff;
+      }
+
+      .service .caret {
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 6px solid #000;
+        transition: 0.3s;
+      }
+
+      .service .caret-rotate {
+        transform: rotate(180deg);
+      }
+
+      .service .menu {
+        list-style: none;
+        padding: 0.2em 0.5em;
+        background: #323741;
+        border: 1px #363a43 solid;
+        box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.2);
+        border-radius: 0.5em;
+        color: #9fa5b5;
+        position: absolute;
+        top: 4em;
+        left: 50%;
+        width: 100%;
+        transform: translateX(-50%);
+        opacity: 0;
+        display: none;
+        transition: 0.2s;
+        z-index: 1;
+      }
+
+      .service .menu li {
+        padding: 0.7em 0.5em;
+        margin: 0.3em 0;
+        border-radius: 0.5em;
+        cursor: pointer;
+      }
+
+      .service .menu li:hover {
+        background: #2a2d35;
+      }
+
+      .service .active {
+        background: #23242a;
+      }
+
+      .service .menu-open {
+        display: block;
+        opacity: 1;
+      }
+
+      .w-600 {
+        max-width: 600px;
+      }
+
+      .p-2p {
+        padding: 2px;
+      }
+
+      .txtRoReady {
+        color: #efbc22;
+      }
+
+      .bgHomeFabrication {
+        background-color: #f6f6f6;
+      }
+
+      .bgRequestACall {
+        background-image: url("../../admin/assets/img/images/requestACallLeft.png"),
+          url("../../admin/assets/img/images/requestACallRight.png");
+        background-position: top left, bottom right;
+        background-repeat: no-repeat;
+      }
+
+      /* testimonials css  */
+      .testim {
+        width: 100%;
+        position: absolute;
+        top: 50%;
+        -webkit-transform: translatey(-50%);
+        -moz-transform: translatey(-50%);
+        -ms-transform: translatey(-50%);
+        -o-transform: translatey(-50%);
+        transform: translatey(-50%);
+      }
+
+      .testim .wrap {
+        position: relative;
+        width: 100%;
+        max-width: 620px;
+        padding: 40px 20px;
+        margin: auto;
+      }
+
+      .testim .arrow {
+        display: block;
+        position: absolute;
+        color: #333;
+        cursor: pointer;
+        font-size: 2em;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+        transform: translateY(-50%);
+        -webkit-transition: all 0.3s ease-in-out;
+        -ms-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+        padding: 5px;
+        z-index: 22222222;
+      }
+
+      .testim .arrow:before {
+        cursor: pointer;
+      }
+
+      .testim .arrow:hover {
+        color: green;
+      }
+
+      .testim .arrow.left {
+        left: -40px;
+        height: 100px;
+      }
+
+      .testim .arrow.right {
+        right: -40px;
+        height: 100px;
+      }
+
+      .testim .dots {
+        text-align: center;
+        position: absolute;
+        width: 100%;
+        bottom: -20px;
+        left: 0;
+        display: block;
+        z-index: 3333;
+        height: 12px;
+      }
+
+      .testim .dots .dot {
+        list-style-type: none;
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 1px solid #00a2d3;
+        margin: 0 10px;
+        cursor: pointer;
+        -webkit-transition: all 0.5s ease-in-out;
+        -ms-transition: all 0.5s ease-in-out;
+        -moz-transition: all 0.5s ease-in-out;
+        -o-transition: all 0.5s ease-in-out;
+        transition: all 0.5s ease-in-out;
+        position: relative;
+      }
+
+      .testim .dots .dot.active,
+      .testim .dots .dot:hover {
+        background: #00a2d3;
+        border-color: #00a2d3;
+      }
+
+      .testim .dots .dot.active {
+        -webkit-animation: testim-scale 0.5s ease-in-out forwards;
+        -moz-animation: testim-scale 0.5s ease-in-out forwards;
+        -ms-animation: testim-scale 0.5s ease-in-out forwards;
+        -o-animation: testim-scale 0.5s ease-in-out forwards;
+        animation: testim-scale 0.5s ease-in-out forwards;
+      }
+
+      .testim .cont {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .testim .cont > div {
+        text-align: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 0 0 70px 0;
+        opacity: 0;
+      }
+
+      .testim .cont > div.inactive {
+        opacity: 1;
+      }
+
+      .testim .cont > div.active {
+        position: relative;
+        opacity: 1;
+      }
+
+      .testim .cont div.active h2 {
+        -webkit-animation: testim-content-in 0.4s ease-in-out forwards;
+        -moz-animation: testim-content-in 0.4s ease-in-out forwards;
+        -ms-animation: testim-content-in 0.4s ease-in-out forwards;
+        -o-animation: testim-content-in 0.4s ease-in-out forwards;
+        animation: testim-content-in 0.4s ease-in-out forwards;
+      }
+
+      .testim .cont div.active p {
+        -webkit-animation: testim-content-in 0.5s ease-in-out forwards;
+        -moz-animation: testim-content-in 0.5s ease-in-out forwards;
+        -ms-animation: testim-content-in 0.5s ease-in-out forwards;
+        -o-animation: testim-content-in 0.5s ease-in-out forwards;
+        animation: testim-content-in 0.5s ease-in-out forwards;
+      }
+
+      .testim .cont div.inactive .img img {
+        -webkit-animation: testim-hide 0.5s ease-in-out forwards;
+        -moz-animation: testim-hide 0.5s ease-in-out forwards;
+        -ms-animation: testim-hide 0.5s ease-in-out forwards;
+        -o-animation: testim-hide 0.5s ease-in-out forwards;
+        animation: testim-hide 0.5s ease-in-out forwards;
+      }
+
+      .testim .cont div.inactive h2 {
+        -webkit-animation: testim-content-out 0.4s ease-in-out forwards;
+        -moz-animation: testim-content-out 0.4s ease-in-out forwards;
+        -ms-animation: testim-content-out 0.4s ease-in-out forwards;
+        -o-animation: testim-content-out 0.4s ease-in-out forwards;
+        animation: testim-content-out 0.4s ease-in-out forwards;
+      }
+
+      .testim .cont div.inactive p {
+        -webkit-animation: testim-content-out 0.5s ease-in-out forwards;
+        -moz-animation: testim-content-out 0.5s ease-in-out forwards;
+        -ms-animation: testim-content-out 0.5s ease-in-out forwards;
+        -o-animation: testim-content-out 0.5s ease-in-out forwards;
+        animation: testim-content-out 0.5s ease-in-out forwards;
+      }
+
+      @-webkit-keyframes testim-scale {
+        0% {
+          -webkit-box-shadow: 0px 0px 0px 0px #eee;
+          box-shadow: 0px 0px 0px 0px #eee;
+        }
+
+        35% {
+          -webkit-box-shadow: 0px 0px 10px 5px #eee;
+          box-shadow: 0px 0px 10px 5px #eee;
+        }
+
+        70% {
+          -webkit-box-shadow: 0px 0px 10px 5px #ea830e;
+          box-shadow: 0px 0px 10px 5px #ea830e;
+        }
+
+        100% {
+          -webkit-box-shadow: 0px 0px 0px 0px #ea830e;
+          box-shadow: 0px 0px 0px 0px #ea830e;
+        }
+      }
+
+      @-moz-keyframes testim-scale {
+        0% {
+          -moz-box-shadow: 0px 0px 0px 0px #eee;
+          box-shadow: 0px 0px 0px 0px #eee;
+        }
+
+        35% {
+          -moz-box-shadow: 0px 0px 10px 5px #eee;
+          box-shadow: 0px 0px 10px 5px #eee;
+        }
+
+        70% {
+          -moz-box-shadow: 0px 0px 10px 5px #ea830e;
+          box-shadow: 0px 0px 10px 5px #ea830e;
+        }
+
+        100% {
+          -moz-box-shadow: 0px 0px 0px 0px #ea830e;
+          box-shadow: 0px 0px 0px 0px #ea830e;
+        }
+      }
+
+      @-ms-keyframes testim-scale {
+        0% {
+          -ms-box-shadow: 0px 0px 0px 0px #eee;
+          box-shadow: 0px 0px 0px 0px #eee;
+        }
+
+        35% {
+          -ms-box-shadow: 0px 0px 10px 5px #eee;
+          box-shadow: 0px 0px 10px 5px #eee;
+        }
+
+        70% {
+          -ms-box-shadow: 0px 0px 10px 5px #ea830e;
+          box-shadow: 0px 0px 10px 5px #ea830e;
+        }
+
+        100% {
+          -ms-box-shadow: 0px 0px 0px 0px #ea830e;
+          box-shadow: 0px 0px 0px 0px #ea830e;
+        }
+      }
+
+      @-o-keyframes testim-scale {
+        0% {
+          -o-box-shadow: 0px 0px 0px 0px #eee;
+          box-shadow: 0px 0px 0px 0px #eee;
+        }
+
+        35% {
+          -o-box-shadow: 0px 0px 10px 5px #eee;
+          box-shadow: 0px 0px 10px 5px #eee;
+        }
+
+        70% {
+          -o-box-shadow: 0px 0px 10px 5px #ea830e;
+          box-shadow: 0px 0px 10px 5px #ea830e;
+        }
+
+        100% {
+          -o-box-shadow: 0px 0px 0px 0px #ea830e;
+          box-shadow: 0px 0px 0px 0px #ea830e;
+        }
+      }
+
+      @keyframes testim-scale {
+        0% {
+          box-shadow: 0px 0px 0px 0px #eee;
+        }
+
+        35% {
+          box-shadow: 0px 0px 10px 5px #eee;
+        }
+
+        70% {
+          box-shadow: 0px 0px 10px 5px #ea830e;
+        }
+
+        100% {
+          box-shadow: 0px 0px 0px 0px #ea830e;
+        }
+      }
+
+      @-webkit-keyframes testim-content-in {
+        from {
+          opacity: 0;
+          -webkit-transform: translateY(100%);
+          transform: translateY(100%);
+        }
+
+        to {
+          opacity: 1;
+          -webkit-transform: translateY(0);
+          transform: translateY(0);
+        }
+      }
+
+      @-moz-keyframes testim-content-in {
+        from {
+          opacity: 0;
+          -moz-transform: translateY(100%);
+          transform: translateY(100%);
+        }
+
+        to {
+          opacity: 1;
+          -moz-transform: translateY(0);
+          transform: translateY(0);
+        }
+      }
+
+      @-ms-keyframes testim-content-in {
+        from {
+          opacity: 0;
+          -ms-transform: translateY(100%);
+          transform: translateY(100%);
+        }
+
+        to {
+          opacity: 1;
+          -ms-transform: translateY(0);
+          transform: translateY(0);
+        }
+      }
+
+      @-o-keyframes testim-content-in {
+        from {
+          opacity: 0;
+          -o-transform: translateY(100%);
+          transform: translateY(100%);
+        }
+
+        to {
+          opacity: 1;
+          -o-transform: translateY(0);
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes testim-content-in {
+        from {
+          opacity: 0;
+          transform: translateY(100%);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @-webkit-keyframes testim-content-out {
+        from {
+          opacity: 1;
+          -webkit-transform: translateY(0);
+          transform: translateY(0);
+        }
+
+        to {
+          opacity: 0;
+          -webkit-transform: translateY(-100%);
+          transform: translateY(-100%);
+        }
+      }
+
+      @-moz-keyframes testim-content-out {
+        from {
+          opacity: 1;
+          -moz-transform: translateY(0);
+          transform: translateY(0);
+        }
+
+        to {
+          opacity: 0;
+          -moz-transform: translateY(-100%);
+          transform: translateY(-100%);
+        }
+      }
+
+      @-ms-keyframes testim-content-out {
+        from {
+          opacity: 1;
+          -ms-transform: translateY(0);
+          transform: translateY(0);
+        }
+
+        to {
+          opacity: 0;
+          -ms-transform: translateY(-100%);
+          transform: translateY(-100%);
+        }
+      }
+
+      @-o-keyframes testim-content-out {
+        from {
+          opacity: 1;
+          -o-transform: translateY(0);
+          transform: translateY(0);
+        }
+
+        to {
+          opacity: 0;
+          transform: translateY(-100%);
+          transform: translateY(-100%);
+        }
+      }
+
+      @keyframes testim-content-out {
+        from {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        to {
+          opacity: 0;
+          transform: translateY(-100%);
+        }
+      }
+
+      @-webkit-keyframes testim-show {
+        from {
+          opacity: 0;
+          -webkit-transform: scale(0);
+          transform: scale(0);
+        }
+
+        to {
+          opacity: 1;
+          -webkit-transform: scale(1);
+          transform: scale(1);
+        }
+      }
+
+      @-moz-keyframes testim-show {
+        from {
+          opacity: 0;
+          -moz-transform: scale(0);
+          transform: scale(0);
+        }
+
+        to {
+          opacity: 1;
+          -moz-transform: scale(1);
+          transform: scale(1);
+        }
+      }
+
+      @-ms-keyframes testim-show {
+        from {
+          opacity: 0;
+          -ms-transform: scale(0);
+          transform: scale(0);
+        }
+
+        to {
+          opacity: 1;
+          -ms-transform: scale(1);
+          transform: scale(1);
+        }
+      }
+
+      @-o-keyframes testim-show {
+        from {
+          opacity: 0;
+          -o-transform: scale(0);
+          transform: scale(0);
+        }
+
+        to {
+          opacity: 1;
+          -o-transform: scale(1);
+          transform: scale(1);
+        }
+      }
+
+      @keyframes testim-show {
+        from {
+          opacity: 0;
+          transform: scale(0);
+        }
+
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @-webkit-keyframes testim-hide {
+        from {
+          opacity: 1;
+          -webkit-transform: scale(1);
+          transform: scale(1);
+        }
+
+        to {
+          opacity: 0;
+          -webkit-transform: scale(0);
+          transform: scale(0);
+        }
+      }
+
+      @-moz-keyframes testim-hide {
+        from {
+          opacity: 1;
+          -moz-transform: scale(1);
+          transform: scale(1);
+        }
+
+        to {
+          opacity: 0;
+          -moz-transform: scale(0);
+          transform: scale(0);
+        }
+      }
+
+      @-ms-keyframes testim-hide {
+        from {
+          opacity: 1;
+          -ms-transform: scale(1);
+          transform: scale(1);
+        }
+
+        to {
+          opacity: 0;
+          -ms-transform: scale(0);
+          transform: scale(0);
+        }
+      }
+
+      @-o-keyframes testim-hide {
+        from {
+          opacity: 1;
+          -o-transform: scale(1);
+          transform: scale(1);
+        }
+
+        to {
+          opacity: 0;
+          -o-transform: scale(0);
+          transform: scale(0);
+        }
+      }
+
+      @keyframes testim-hide {
+        from {
+          opacity: 1;
+          transform: scale(1);
+        }
+
+        to {
+          opacity: 0;
+          transform: scale(0);
+        }
+      }
+
+      @media all and (max-width: 767px) {
+        .testim .wrap {
+          max-width: 300px;
+        }
+
+        .testim .arrow.left {
+          left: -8px;
+        }
+
+        .testim .arrow.right {
+          right: -8px;
+        }
+      }
+
+      @media all and (max-width: 500px) {
+        .testim .arrow {
+          font-size: 1.5em;
+        }
+
+        .testim .dots {
+          bottom: 20px;
+        }
+
+        .border-hide {
+          border: none;
+        }
+      }
+
+      .bgTestimonial {
+        background-image: url("images/testimonialsBg.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: bottom center;
+      }
+
+      .bgColorTestimonial {
+        background-color: #9fb8c9;
+      }
+
+      .bgSubscription {
+        background-color: #181817;
+      }
+
+      .bgSubscriptionCard {
+        background-color: #484744;
+      }
+
+      .shadow-3xl {
+        box-shadow: 2px 2px 2px 2px #000;
+      }
+
+      .silverText-gradient {
+        background: linear-gradient(to right, #c2cfd7, #dae9f2, #ebf1f5);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-weight: 700;
+        font-family: "Quantico", sans-serif;
+      }
+
+      .silverText-border {
+        background: linear-gradient(to right, #9c9c9c, #d4d1c7, #ebf1f5);
+      }
+
+      .goldText-gradient {
+        background: linear-gradient(to right, #ffd924, #fffae7, #e9b70b);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-weight: 700;
+        font-family: "Quantico", sans-serif;
+      }
+
+      .goldText-border {
+        background: linear-gradient(to right, #ffd82d, #d4d1c7, #1d1d1d);
+      }
+
+      .p-2p {
+        padding: 2px;
+      }
+
+      .py-5p {
+        padding-top: 5px;
+        padding-bottom: 5px;
+      }
+
+      .scale-95:hover {
+        transform: scale(0.95);
+        transition: all 0.3s ease-in-out;
+      }
+
+      .rotate:hover img {
+        transform: scale(0.95) rotate(calc(360deg));
+        transition: all 0.7s ease-in-out;
+      }
+
+      .mobile-menu {
+        display: none;
+      }
+    </style>
+
+    <script>
+      // Tailwind CSS configuration
+      window.tailwind = {
+        theme: {
+          extend: {
+            fontFamily: {
+              aquakana: ["Aqua Kana", "sans-serif"],
+            },
+            colors: {
+              // Define custom colors
+              bgYellow: "#FFD400",
+              txtYellow: "#FCD202",
+              bgSky: "#00A2D3",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+
+  <body class="bgYellow">
+    <!-- Header sticky start  -->
+
+    <div
+      class="mainContainer w-full lg:mx-auto px-2 lg:top-8 top-2 sticky z-20"
+    >
+      <div
+        class="w-full bgHeader rounded-xl w-full p-1 flex items-center justify-between"
+      >
+        <div
+          class="bgLogo rounded-xl p-2 h-11 sm:h-full sm:w-32 w-20 overflow-hidden"
+        >
+          <img
+            src="../../admin/assets/img/images/logo.png"
+            class="w-full h-full"
+            alt="ro_cart"
+          />
+        </div>
+        <div class="flex items-center gap-1">
+          <a href="/" class="hidden lg:block">
+            <div
+              id="home"
+              class="bg-black bg-black rounded-xl border border-yellow px-6 py-3 menu"
+            >
+              <h4 class="font-aquakana font-normal txtYellow text-xl">Home</h4>
+            </div>
+          </a>
+          <a href="/products" class="hidden lg:block">
+            <div
+              class="bg-black rounded-xl border border-yellow px-4 py-3 menu"
+            >
+              <h4 class="font-aquakana font-normal txtYellow text-xl">
+                Products
+              </h4>
+            </div>
+          </a>
+          <a href="/subscription" class="hidden lg:block">
+            <div
+              class="bg-black rounded-xl border border-yellow px-4 py-3 menu"
+            >
+              <h4 class="font-aquakana font-normal txtYellow text-xl">
+                Subscription
+              </h4>
+            </div>
+          </a>
+          <a href="/aboutUs" class="hidden lg:block">
+            <div
+              class="bg-black rounded-xl border border-yellow px-4 py-3 menu"
+            >
+              <h4 class="font-aquakana font-normal txtYellow text-xl">
+                About Us
+              </h4>
+            </div>
+          </a>
+          <a href="#requestACall" class="scale-95">
+            <div
+              class="bgSky rounded-xl border border-sky sm:px-4 px-3 py-2 flex items-center gap-3"
+            >
+              <div class="sm:w-10 sm:h-10 w-6 h-6 overflow-hidden">
+                <img
+                  src="../../admin/assets/img/images/PhoneIncoming.png"
+                  alt="Phone Incoming"
+                  class="w-full h-full"
+                />
+              </div>
+              <h4
+                class="font-aquakana font-normal text-white sm:text-xl text-base"
+              >
+                Request a Call
+              </h4>
+            </div>
+          </a>
+        </div>
+        <!-- mobile view  -->
+        <div class="relative lg:hidden">
+          <div
+            class="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded cursor-pointer"
+            id="menu-btn"
+          >
+            <img
+              src="../../admin/assets/img/images/Hamburger_icon.png"
+              class="w-full h-full"
+              alt="Hamburger_icon"
+            />
+          </div>
+          <div
+            class="absolute top-10 sm:top-12 right-0 w-36 text-center bg-white shadow-xl rounded-xl mobile-menu"
+          >
+            <a href="/">
+              <h4
+                id="home"
+                class="font-aquakana font-normal text-black text-lg py-2 my-1"
+              >
+                Home
+              </h4>
+            </a>
+            <a href="/products">
+              <h4
+                class="font-aquakana font-normal text-black text-lg py-2 my-1"
+              >
+                Products
+              </h4>
+            </a>
+            <a href="/subscription">
+              <h4
+                class="font-aquakana font-normal text-black text-lg py-2 my-1"
+              >
+                Subscription
+              </h4>
+            </a>
+            <a href="/aboutUs">
+              <h4
+                class="font-aquakana font-normal text-black text-lg py-2 my-1"
+              >
+                About Us
+              </h4>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Header sticky start  -->
+
+    <!-- Header start -->
+    <div class="bgYellow h-full md:pb-28 pb-10">
+      <!-- Banner section start  -->
+
+      <div class="w-full h-full flex items-center justify-center px-4">
+        <div class="mainContainer relative">
+          <div
+            x-data="{ activeSlide: 1, slideCount: 3 }"
+            class="overflow-hidden relative"
+          >
+            <!-- Slider -->
+            <!-- You can remove x-init if you dont want to autoplay -->
+            <div
+              class="whitespace-nowrap transition-transform duration-500 ease-in-out"
+              :style="'transform: translateX(-' + (activeSlide - 1) * 100.5 + '%)'"
+              x-init="setInterval(() => { activeSlide = activeSlide < slideCount ? activeSlide + 1 : 1 }, 5000)"
+            >
+              <!-- Item 1 -->
+              <a href="/subscription" class="inline-block w-full h-fit overflow-hidden cursor-pointer">
+                <img
+                  src="../../admin/assets/img/bannerOne.png"
+                  alt="Banner"
+                  class="w-full h-full object-cover object-center"
+                />
+              </a>
+              <!-- Item 2 -->
+              <!-- <div class="inline-block w-full h-fit overflow-hidden">
+                <img
+                  src="../../admin/assets/img/images/RoKart_banner2.avif"
+                  alt="Banner"
+                  class="w-full h-full object-cover object-center"
+                />
+              </div>  -->
+              <!-- Item 3 -->
+              <!-- <div class="inline-block w-full h-fit overflow-hidden">
+                <img
+                  src="../../admin/assets/img/images/RoKart_banner3.avif"
+                  alt="Banner"
+                  class="w-full h-full object-cover object-center"
+                />
+              </div> -->
+              <a href="/products" class="inline-block w-full h-fit overflow-hidden cursor-pointer">
+                <img
+                  src="../../admin/assets/img/images/RoKart_banner2.avif"
+                  alt="Banner"
+                  class="w-full h-full object-cover object-center"
+                />
+              </a>
+              <a href="/products" class="inline-block w-full h-fit overflow-hidden cursor-pointer">
+                <img
+                  src="../../admin/assets/img/images/RoKart_banner3.avif"
+                  alt="Banner"
+                  class="w-full h-full object-cover object-center"
+                />
+              </a>
+            </div>
+            <!-- Dots Navigation -->
+            <div
+              class="absolute bottom-2 left-0 flex justify-center space-x-2 p-4"
+            >
+              <template x-for="slideIndex in slideCount" :key="slideIndex">
+                <button
+                  @click="activeSlide = slideIndex"
+                  class="h-5 w-5 rounded-full border border-black"
+                  :class="{'bg-black': activeSlide === slideIndex, 'bgYellow': activeSlide !== slideIndex}"
+                ></button>
+              </template>
+            </div>
+          </div>
+          <div
+            class="absolute right-0 md:-bottom-10 -bottom-4 flex justify-end scale-95"
+          >
+            <img
+              src="../../admin/assets/img/images/aajHiGharLeJaye.png"
+              class="md:w-4/5 w-3/5 cursor-pointer"
+              alt="Aaj hi ghar le jaye"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Banner section end  -->
+    </div>
+    <!-- Header end -->
+
+    <!-- Happy Customers start  -->
+
+    <div class="bgSky w-full h-full md:py-14 py-10">
+      <div class="mainContainer lg:mx-auto mx-4">
+        <img
+          src="../../admin/assets/img/images/happyCustomers.png"
+          alt="Happy Customers"
+          class="w-full h-full"
+        />
+      </div>
+    </div>
+    <!-- Happy Customers end  -->
+
+    <!-- Subscription start  -->
+
+    <div class="bgSubscription py-10">
+      <div class="mainContainer lg:mx-auto">
+        <div
+          class="flex items-center justify-center gap-4 pt-8 sm:mx-auto mx-4"
+        >
+          <div class="border border-white lg:w-40 md:w-32 sm:w-20 w-5"></div>
+          <div
+            class="border border-white rounded-full txtYellow font-semibold md:text-5xl text-2xl py-2 md:px-16 px-8 font-aquakana"
+          >
+            Subscription
+          </div>
+          <div class="border border-white lg:w-40 md:w-32 sm:w-20 w-5"></div>
+        </div>
+        <div
+          class="grid sm:grid-cols-2 grid-cols-1 gap-8 sm:mx-auto mx-4 my-10"
+        >
+          <div class="bgSubscriptionCard rounded-xl relative scale-95">
+            <div class="absolute -top-1 -left-1">
+              <img
+                src="../../admin/assets/img/images/silverSubsTag.png"
+                class=""
+                alt="Silver Subscription"
+              />
+            </div>
+            <div class="h-80 w-52 my-8 mx-auto">
+              <img
+                src="../../admin/assets/img/images/silverSubscription.png"
+                alt="Silver Subscription"
+                class="w-full h-full"
+              />
+            </div>
+            <p class="text-white font-normal text-sm font-quantico ml-10">
+              Worth Rs 13990/-
+            </p>
+            <div class="silverText-border mx-7 mb-7 p-2p shadow-3xl rounded-xl">
+              <div class="p-4 rounded-xl h-fit w-fit bg-black">
+                <div class="pb-2 border-b border-white">
+                  <h4
+                    class="text-white font-normal sm:text-3xl text-xl font-quantico"
+                  >
+                    ₹330/month
+                  </h4>
+                  <p class="text-white font-normal text-sm font-quantico">
+                    (1500/- security charge 100% refundable)
+                  </p>
+                  <p
+                    class="text-white font-normal sm:text-lg text-base font-quantico"
+                  >
+                    RO + UV + UF + TDS + Copper
+                  </p>
+                </div>
+                <a href="#requestACall">
+                  <div
+                    class="flex gap-2 items-center justify-between cursor-pointer mt-3"
+                  >
+                    <h4
+                      class="silverText-gradient font-normal sm:text-3xl text-xl"
+                    >
+                      Subscribe Now
+                    </h4>
+                    <img
+                      src="../../admin/assets/img/images/subscribeNowRightArrow.png"
+                      alt="Right Arrow"
+                      class="lg:w-11 w-7"
+                    />
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="bgSubscriptionCard rounded-xl relative scale-95">
+            <div class="absolute -top-1 -left-1">
+              <img
+                src="../../admin/assets/img/images/goldSubsTag.png"
+                class=""
+                alt="Silver Subscription"
+              />
+            </div>
+            <div class="h-80 w-52 my-8 mx-auto">
+              <img
+                src="../../admin/assets/img/images/goldSubscription.png"
+                alt="Silver Subscription"
+                class="w-full h-full"
+              />
+            </div>
+            <p class="text-white font-normal text-sm font-quantico ml-10">
+              Worth Rs 15990/-
+            </p>
+            <div class="goldText-border mx-7 mb-7 p-2p shadow-3xl rounded-xl">
+              <div class="w-fit h-fit p-4 bg-black rounded-xl">
+                <div class="pb-2 border-b border-white">
+                  <h4
+                    class="text-white font-normal sm:text-3xl text-xl font-quantico"
+                  >
+                    ₹430/month
+                  </h4>
+                  <p class="text-white font-normal text-sm font-quantico">
+                    (1500/- security charge 100% refundable)
+                  </p>
+                  <p
+                    class="text-white font-normal sm:text-lg text-base font-quantico"
+                  >
+                    RO + UV + UF + TDS + Copper + ALK
+                  </p>
+                  <!-- <p class="text-white font-normal text-sm font-quantico">
+                    Worth Rs 15990/- (1500/- security charge 100% refundable)
+                  </p> -->
+                </div>
+                <a href="#requestACall">
+                  <div
+                    class="flex gap-2 items-center justify-between cursor-pointer mt-3"
+                  >
+                    <h4
+                      class="goldText-gradient font-normal sm:text-3xl text-xl"
+                    >
+                      Subscribe Now
+                    </h4>
+                    <img
+                      src="../../admin/assets/img/images/subscribeNowRightArrow.png"
+                      alt="Right Arrow"
+                      class="lg:w-11 w-7"
+                    />
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center justify-center gap-2">
+          <a
+            href="/subscription"
+            class="flex items-center justify-center gap-2 px-5 border border-yellow py-3 rounded-xl"
+          >
+            <h4 class="text-white text-center sm:text-xl text-lg font-semibold">
+              More
+            </h4>
+            <img
+              src="../../admin/assets/img/images/subscribeNowRightArrow.png"
+              alt="Right Arrow"
+              class="lg:w-6 w-5"
+            />
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- Subscription end  -->
+
+    <!-- TESTIMONIALS start  -->
+
+    <div class="bgColorTestimonial w-full">
+      <div
+        class="bgTestimonial bgColorTestimonial relative w-full md:h-80vh h-screen md:py-14 py-10"
+      >
+        <div class="mainContainer flex items-center justify-center mx-auto">
+          <div class="items-center justify-center gap-4 pt-0 flex">
+            <div class="border border-white lg:w-40 md:w-32 sm:w-20 w-4"></div>
+            <div
+              class="border border-white rounded-full txtYellow font-medium md:text-5xl text-2xl py-2 md:px-16 px-8"
+            >
+              TESTIMONIALS
+            </div>
+            <div class="border border-white lg:w-40 md:w-32 sm:w-20 w-4"></div>
+          </div>
+        </div>
+        <div class="container">
+          <section id="testim" class="testim">
+            <div class="testim-cover">
+              <div class="wrap">
+                <span id="right-arrow" class="arrow right">
+                  <img
+                    src="../../admin/assets/img/images/rightArrowFull.png"
+                    alt="Right Arrow"
+                    class="md:w-14 w-6"
+                  />
+                </span>
+                <span id="left-arrow" class="arrow left">
+                  <img
+                    src="../../admin/assets/img/images/LeftArrowFull.png"
+                    alt="Left Arrow"
+                    class="md:w-14 w-6"
+                  />
+                </span>
+                <ul id="testim-dots" class="dots">
+                  <li class="dot active"></li>
+                  <!--
+                        -->
+                  <li class="dot"></li>
+                  <!--
+                        -->
+                  <li class="dot"></li>
+                  <!--
+                        -->
+                  <li class="dot"></li>
+                  <!--
+                        -->
+                  <li class="dot"></li>
+                  <!--
+                         -->
+                  <li class="dot"></li>
+                  <!--
+                          -->
+                </ul>
+                <div id="testim-content" class="cont">
+                  <div class="active text-center bg-white px-4 py-2 rounded-xl">
+                    <h2
+                      class="sm:text-3xl text-2xl text-black font-medium font-aquakana pt-8"
+                    >
+                      Sheo Prasad Prajapati
+                    </h2>
+                    <p
+                      class="md:text-lg text-base font-normal font-aquakana text-black mb-5 mt-2"
+                    >
+                      (Varanasi)
+                    </p>
+                    <p
+                      class="md:text-lg text-base font-normal font-aquakana text-black md:px-16 px-8"
+                    >
+                      Highly recommended to the family who have shifted from
+                      other cities to Varanasi. Very affordable pricing, Support
+                      staff are also very good when it comes to fix the issue.
+                      Why bother to buy a new RO when you can easily rent the RO
+                      at the very cheap price.
+                    </p>
+                  </div>
+
+                  <div class="text-center bg-white px-4 py-2 rounded-xl">
+                    <h2
+                      class="sm:text-3xl text-2xl text-black font-medium font-aquakana pt-8"
+                    >
+                      Shivam Kumar Singh
+                    </h2>
+                    <p
+                      class="md:text-lg text-base font-normal font-aquakana text-black mb-5 mt-2"
+                    >
+                      (Varanasi)
+                    </p>
+                    <p
+                      class="md:text-lg text-base font-normal font-aquakana text-black md:px-16 px-8"
+                    >
+                      There service is quite good and you don't have to take
+                      tension of any thing they give you the mechanic and also
+                      take care of it and also provide timely service and take
+                      care of everything only the thing you have to do is to pay
+                      there monthly charge on time. Overall service is good.
+                    </p>
+                  </div>
+
+                  <div class="text-center bg-white px-4 py-2 rounded-xl">
+                    <h2
+                      class="sm:text-3xl text-2xl text-black font-medium font-aquakana pt-8"
+                    >
+                      nikhil srivastava
+                    </h2>
+                    <p
+                      class="md:text-lg text-base font-normal font-aquakana text-black mb-5 mt-2"
+                    >
+                      (Varanasi)
+                    </p>
+                    <p
+                      class="md:text-lg text-base font-normal font-aquakana text-black md:px-16 px-8"
+                    >
+                      Awsm experience, prompt service at affordable price, must
+                      try rental RO service
+                    </p>
+                  </div>
+
+                  <div class="text-center bg-white px-4 py-2 rounded-xl">
+                    <h2
+                      class="sm:text-3xl text-2xl text-black font-medium font-aquakana pt-8"
+                    >
+                      Rohit Raj
+                    </h2>
+                    <p
+                      class="md:text-lg text-base font-normal font-aquakana text-black mb-5 mt-2"
+                    >
+                      (Varanasi)
+                    </p>
+                    <p
+                      class="md:text-lg text-base font-normal font-aquakana text-black md:px-16 px-8"
+                    >
+                      There service is absolutely on time. My Overall Experience
+                      is Good 😊 …
+                    </p>
+                  </div>
+
+                  <div class="text-center bg-white px-4 py-2 rounded-xl">
+                    <h2
+                      class="sm:text-3xl text-2xl text-black font-medium font-aquakana pt-8"
+                    >
+                      Akanksha Rai
+                    </h2>
+                    <p
+                      class="md:text-lg text-base font-normal font-aquakana text-black mb-5 mt-2"
+                    >
+                      (Varanasi)
+                    </p>
+                    <p
+                      class="md:text-lg text-base font-normal font-aquakana text-black md:px-16 px-8"
+                    >
+                      First of all when I think to buy a Ro water purifier i
+                      need suggestion because I don't know which one is good and
+                      how to choose correct water purifier so I message ro kart
+                      and I found the best ro water purifier . I heard about
+                      their rental service I think it's very interesting and
+                      helpful for many buyers .
+                    </p>
+                  </div>
+
+                  <div class="text-center bg-white px-4 py-2 rounded-xl">
+                    <h2
+                      class="sm:text-3xl text-2xl text-black font-medium font-aquakana pt-8"
+                    >
+                      EMMANUEL SINGH
+                    </h2>
+                    <p
+                      class="md:text-lg text-base font-normal font-aquakana text-black mb-5 mt-2"
+                    >
+                      (Varanasi)
+                    </p>
+                    <p
+                      class="md:text-lg text-base font-normal font-aquakana text-black md:px-16 px-8"
+                    >
+                      Prompt response from RO Kart team, on-time R installation,
+                      easy payments, overall services is really good. I
+                      recommend RO Kart in case anyone is looking out for RO on
+                      rent basis.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <!-- TESTIMONIALS end  -->
+
+    <!-- Make Your RO Ready For Summer start -->
+
+    <div class="bg-white md:py-14 py-10">
+      <div class="mainContainer md:mx-auto mx-4">
+        <div class="text-center">
+          <h2
+            class="text-black font-aquakana font-semibold sm:text-5xl sm:text-3xl text-2xl mb-3"
+          >
+            Make Your <span class="txtRoReady"> RO Ready </span> For
+            <span class="txtRoReady">Summer</span>
+          </h2>
+          <div class="w-full flex justify-center">
+            <p
+              class="md:text-2xl text-lg font-normal font-aquakana text-black md:w-3/5 mx-7"
+            >
+              In our field, we are the best. The greatest products and services
+              in the area are the ones we offer.
+            </p>
+          </div>
+        </div>
+        <div
+          class="grid md:grid-cols-3 grid-cols-2 lg:gap-10 sm:gap-8 gap-4 mt-10"
+        >
+          <div class="rotate w-full flex flex-col items-center">
+            <div
+              class="bgHomeFabrication w-32 h-32 rounded-full overflow-hidden p-6 mb-4"
+            >
+              <img
+                src="../../admin/assets/img/images/HomeFiltrationSystems.png"
+                alt="Home Filtration Systems"
+                class="w-full h-full"
+              />
+            </div>
+            <p
+              class="md:text-lg text-base font-normal text-center font-aquakana text-black"
+            >
+              Home Filtration Systems
+            </p>
+          </div>
+          <div class="rotate w-full flex flex-col items-center">
+            <div
+              class="bgHomeFabrication w-32 h-32 rounded-full overflow-hidden p-6 mb-4"
+            >
+              <img
+                src="../../admin/assets/img/images/DrinkingWaterSystems.png"
+                alt="Home Filtration Systems"
+                class="w-full h-full"
+              />
+            </div>
+            <p
+              class="md:text-lg text-base font-normal text-center font-aquakana text-black"
+            >
+              Drinking Water Systems
+            </p>
+          </div>
+          <div class="rotate w-full flex flex-col items-center">
+            <div
+              class="bgHomeFabrication w-32 h-32 rounded-full overflow-hidden p-6 mb-4"
+            >
+              <img
+                src="../../admin/assets/img/images/ProblemWaterSolution.png"
+                alt="Home Filtration Systems"
+                class="w-full h-full"
+              />
+            </div>
+            <p
+              class="md:text-lg text-base font-normal text-center font-aquakana text-black"
+            >
+              Problem Water Solution
+            </p>
+          </div>
+          <div class="rotate w-full flex flex-col items-center">
+            <div
+              class="bgHomeFabrication w-32 h-32 rounded-full overflow-hidden p-6 mb-4"
+            >
+              <img
+                src="../../admin/assets/img/images/TapWaterFilter.png"
+                alt="Home Filtration Systems"
+                class="w-full h-full"
+              />
+            </div>
+            <p
+              class="md:text-lg text-base font-normal text-center font-aquakana text-black"
+            >
+              Tap Water Filter
+            </p>
+          </div>
+          <div class="rotate w-full flex flex-col items-center">
+            <div
+              class="bgHomeFabrication w-32 h-32 rounded-full overflow-hidden p-6 mb-4"
+            >
+              <img
+                src="../../admin/assets/img/images/ShowerWaterFilter.png"
+                alt="Home Filtration Systems"
+                class="w-full h-full"
+              />
+            </div>
+            <p
+              class="md:text-lg text-base font-normal text-center font-aquakana text-black"
+            >
+              Shower Water Filter
+            </p>
+          </div>
+          <div class="rotate w-full flex flex-col items-center">
+            <div
+              class="bgHomeFabrication w-32 h-32 rounded-full overflow-hidden p-6 mb-4"
+            >
+              <img
+                src="../../admin/assets/img/images/HomeWaterTest.png"
+                alt="Home Filtration Systems"
+                class="w-full h-full"
+              />
+            </div>
+            <p
+              class="md:text-lg text-base font-normal text-center font-aquakana text-black"
+            >
+              Home Water Test
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Make Your RO Ready For Summer start -->
+
+    <!-- Request A Call start -->
+    <form id="requestACallForm">
+      <div id="requestACall" class="bgSky bgRequestACall md:py-28 py-16">
+        <div class="mainContainer mx-auto">
+          <div
+            class="bg-white h-fit w-600 md:mx-auto sm:mx-7 mx-4 rounded-xl p-2p shadow-md"
+          >
+            <div class="bgFormHeader rounded-t-xl px-4 py-2">
+              <h2
+                class="sm:text-3xl text-xl text-black font-medium font-aquakana"
+              >
+                Request a Call
+              </h2>
+            </div>
+            <div class="px-4 py-3">
+              <div class="w-full pb-4">
+                <label class="font-aquakana font-medium text-black text-lg pb-1"
+                  >Name</label
+                >
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Enter Full Name"
+                  class="bg-white w-full focus:border-black border border-sky rounded-xl h-12 pl-4 text-black font-normal font-aquakana placeholder:text-black shadow-md"
+                  required
+                />
+              </div>
+              <div class="w-full pb-4">
+                <label class="font-aquakana font-medium text-black text-lg pb-1"
+                  >Mobile Number</label
+                >
+                <input
+                  type="text"
+                  id="mobileNo"
+                  name="mobileNo"
+                  placeholder="Enter Full Name"
+                  class="bg-white w-full focus:border-black border border-sky rounded-xl h-12 pl-4 text-black font-normal font-aquakana placeholder:text-black shadow-md"
+                  required
+                />
+              </div>
+              <div class="w-full pb-4">
+                <label class="font-aquakana font-medium text-black text-lg pb-1"
+                  >Email</label
+                >
+                <input
+                  type="text"
+                  id="email"
+                  name="email"
+                  placeholder="Enter Email"
+                  class="bg-white w-full focus:border-black border border-sky rounded-xl h-12 pl-4 text-black font-normal font-aquakana placeholder:text-black shadow-md"
+                  required
+                />
+              </div>
+              <div class="w-full pb-4">
+                <label class="font-aquakana font-medium text-black text-lg pb-1"
+                  >Pin Code</label
+                >
+                <input
+                  type="text"
+                  id="pincode"
+                  name="pincode"
+                  placeholder="Enter Pin Code"
+                  class="bg-white w-full focus:border-black border border-sky rounded-xl h-12 pl-4 text-black font-normal font-aquakana placeholder:text-black shadow-md"
+                  required
+                />
+              </div>
+              <div class="w-full service pb-8">
+                <label class="font-aquakana font-medium text-black text-lg pb-1"
+                  >Services</label
+                >
+                <div class="dropdown shadow-md">
+                  <div class="select">
+                    <span class="selected">Current Drinking Water Source</span>
+                    <div class="caret"></div>
+                  </div>
+                  <ul class="menu">
+                    <li class="active">Water purifiers</li>
+                    <li>Direct from tap</li>
+                    <li>Govt supply water</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="w-full">
+                <button
+                  type="submit"
+                  id="button"
+                  class="h-12 bgSky text-white font-aquakana rounded-xl outline-none hover:scale-95 w-full px-8"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <!-- Request A Call end -->
+
+    <!-- Refer and Earn start -->
+
+    <!-- <div class="bgRafer w-full h-full h-80vh relative">
+    <div class="h-full w-full flex flex-col items-center justify-center">
+      <div class="md:w-1/2 sm:w-2/3 px-7">
+        <div class="text-center pb-7 z-20">
+          <h2 class="sm:text-5xl sm:text-3xl text-2xl text-black font-medium font-aquakana mb-5">
+            Refer & Earn
+          </h2>
+          <p class="md:text-2xl text-lg font-normal font-aquakana text-black">
+            Signup to be the first to hear about exclusive deals, special
+            offers and upcoming collection
+          </p>
+        </div>
+        <div class="w-full relative">
+          <input type="text" id="raferEarn" name="raferEarn" placeholder="ROKARTDEAL33"
+            class="bg-white w-full outline-none focus:border-black border rounded-md h-12 pl-4 text-black font-semibold font-aquakana placeholder:text-black" />
+          <div class="h-full mt-1 absolute right-1 top-0">
+            <button
+              class="h-10 bgCopyButton text-black font-aquakana rounded-md outline-none hover:scale-95 w-fit sm:px-8 px-2">
+              Copy Code
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+    <!-- Refer and Earn end -->
+
+    <!-- Footer start -->
+
+    <div class="bgFooter w-full">
+      <div class="mainContainer w-full lg:mx-auto px-2">
+        <div class="sm:flex block items-center py-10">
+          <div class="sm:w-2/5 w-full pb-6 md:pb-0">
+            <div class="flex items-end sm:gap-6 gap-3">
+              <div
+                class="bgLogo rounded-xl p-2 h-full sm:w-32 w-28 overflow-hidden"
+              >
+                <img
+                  src="../../admin/assets/img/images/logo.png"
+                  class="w-full h-full"
+                  alt="ro_cart"
+                />
+              </div>
+              <div class="sm:w-32 w-28 h-full overflow-hidden">
+                <img
+                  src="../../admin/assets/img/images/trustedBrand.png"
+                  class="w-full h-full"
+                  alt="Trusted Brand"
+                />
+              </div>
+            </div>
+            <div class="py-5">
+              <h4 class="font-aquakana text-base font-semibold txtRoCart">
+                RO Kart Sales and service
+              </h4>
+            </div>
+            <div class="flex items-center sm:gap-6 gap-3 rotate">
+              <div
+                class="border border-white rounded-full p-2 bgFooter min-w-10 h-10"
+              >
+                <img
+                  src="../../admin/assets/img/images/location.png"
+                  class="w-full h-full"
+                  alt="Location"
+                />
+              </div>
+              <h4
+                class="font-aquakana text-base font-normal txtRoCart opacity-90"
+              >
+                S 2/1-1 K, Tagore Town, Bhojuveer, Varanasi, Uttar Pradesh
+                221002
+              </h4>
+            </div>
+            <div class="flex items-center sm:gap-6 gap-3 py-6 rotate">
+              <div
+                class="border border-white rounded-full p-2 bgFooter min-w-10 h-10"
+              >
+                <img
+                  src="../../admin/assets/img/images/sms.png"
+                  class="w-full h-full"
+                  alt="Sms"
+                />
+              </div>
+              <h4
+                class="font-aquakana text-base font-normal txtRoCart opacity-90"
+              >
+                rokart.india@gmail.com
+              </h4>
+            </div>
+            <div class="flex items-center sm:gap-6 gap-3 rotate">
+              <div
+                class="border border-white rounded-full p-2 bgFooter min-w-10 h-10"
+              >
+                <img
+                  src="../../admin/assets/img/images/call.png"
+                  class="w-full h-full"
+                  alt="Call"
+                />
+              </div>
+              <h4 class="font-aquakana text-lg font-semibold txtRoCart">
+                +91 7800778884, +91 7800778880
+              </h4>
+            </div>
+          </div>
+          <div class="sm:w-3/5 w-full">
+            <div class="flex gap-2 items-center sm:justify-end">
+              <a href="#requestACall" class="scale-95">
+                <div
+                  class="bgSky rounded-md border border-sky sm:px-3 px-2 py-1 flex items-center gap-3"
+                >
+                  <div class="sm:w-8 sm:h-8 w-5 h-5 overflow-hidden">
+                    <img
+                      src="../../admin/assets/img/images/PhoneIncoming.png"
+                      alt="Phone Incoming"
+                      class="w-full h-full"
+                    />
+                  </div>
+                  <a href="#requestACall">
+                    <h4 class="font-aquakana font-normal text-white text-base">
+                      Request a Call
+                    </h4>
+                  </a>
+                </div>
+              </a>
+              <a href="#" class="scale-95">
+                <div
+                  class="bgWhatsApp rounded-md sm:px-3 px-2 py-5p flex items-center gap-3"
+                >
+                  <div class="sm:w-8 sm:h-8 w-5 h-5 overflow-hidden">
+                    <img
+                      src="../../admin/assets/img/images/whatsappIcon.png"
+                      alt="Phone Incoming"
+                      class="w-full h-full"
+                    />
+                  </div>
+                  <h4 class="font-aquakana font-normal text-white text-base">
+                    Whatsapp
+                  </h4>
+                </div>
+              </a>
+            </div>
+            <div class="py-5 sm:text-right">
+              <h4 class="font-aquakana text-base font-semibold txtRoCart">
+                Support & Policies
+              </h4>
+            </div>
+            <div
+              class="flex md:flex-row flex-col block sm:justify-end sm:items-end gap-4 md:gap-0"
+            >
+              <div class="px-4 borderRight">
+                <a href="/u_terms">
+                  <p
+                    class="font-aquakana text-base font-normal txtRoCart opacity-90"
+                  >
+                    Terms & Conditions
+                  </p>
+                </a>
+              </div>
+              <div class="px-4 borderRight">
+                <a href="/u_privacy">
+                  <p
+                    class="font-aquakana text-base font-normal txtRoCart opacity-90"
+                  >
+                    Privacy & Policy
+                  </p>
+                </a>
+              </div>
+              <div class="px-4 borderRight">
+                <a href="/refund_policy">
+                  <p
+                    class="font-aquakana text-base font-normal txtRoCart opacity-90"
+                  >
+                    Refund Policy
+                  </p>
+                </a>
+              </div>
+              <div class="px-4">
+                <a href="#requestACall">
+                  <p
+                    class="font-aquakana text-base font-normal txtRoCart opacity-90"
+                  >
+                    Contact Us
+                  </p>
+                </a>
+              </div>
+            </div>
+            <div class="py-5 sm:text-right">
+              <h4 class="font-aquakana text-base font-semibold txtRoCart">
+                Social Media
+              </h4>
+            </div>
+            <div class="flex items-center sm:justify-end sm:gap-6 gap-3">
+              <div class="w-10 h-10 p-2 bgYellow rounded-full">
+                <a
+                  href="https://www.youtube.com/channel/UC50BQWtFyE8xgJ5O9YZIejg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    src="../../admin/assets/img/images/youTube.png"
+                    alt="You Tube"
+                    class="w-full h-full"
+                /></a>
+              </div>
+              <div class="w-10 h-10 p-2 bgYellow rounded-full">
+                <a
+                  href="https://www.facebook.com/rokartindia/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    src="../../admin/assets/img/images/facebook.png"
+                    alt="You Tube"
+                    class="w-full h-full"
+                /></a>
+              </div>
+              <div class="w-10 h-10 p-2 bgYellow rounded-full">
+                <a
+                  href="https://www.instagram.com/rokart.in/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    src="../../admin/assets/img/images/instagram.png"
+                    alt="You Tube"
+                    class="w-full h-full"
+                /></a>
+              </div>
+            </div>
+            <!-- download app start -->
+
+            <div class="flex sm:justify-end sm:gap-6 gap-5 mt-5">
+              <a
+                href="https://play.google.com/store/apps/details?id=com.rokart.user"
+                target="_blank"
+              >
+                <div class="sm:w-40 w-36 h-10">
+                  <img
+                    src="../../admin/assets/img/images/playStore.png"
+                    alt="Play Store"
+                    class="w-full h-full"
+                  />
+                </div>
+              </a>
+              <a
+                href="https://apps.apple.com/in/app/ro-kart/id6503284624"
+                target="_blank"
+              >
+                <div class="sm:w-40 w-36 h-10">
+                  <img
+                    src="../../admin/assets/img/images/appStore.png"
+                    alt="App Store"
+                    class="w-full h-full"
+                  />
+                </div>
+              </a>
+            </div>
+
+            <!-- download app end -->
+          </div>
+        </div>
+      </div>
+      <div class="borderFull w-full"></div>
+      <div class="text-center w-full py-4">
+        <p class="txtFooter font-aquakana text-sm">
+          © 2025 RO Kart Sales & Services. All rights reserved.
+        </p>
+      </div>
+    </div>
+    <!-- Footer end -->
+
+    <script>
+      // JavaScript to show/hide the mobile menu
+      document.addEventListener("DOMContentLoaded", function () {
+        var menuBtn = document.getElementById("menu-btn");
+        var mobileMenu = document.querySelector(".mobile-menu");
+
+        menuBtn.addEventListener("click", function () {
+          // Toggle the visibility of the mobile menu
+          if (mobileMenu.style.display === "none") {
+            mobileMenu.style.display = "block";
+          } else {
+            mobileMenu.style.display = "none";
+          }
+        });
+      });
+    </script>
+
+    <script>
+      const dropdown = document.querySelector(".dropdown");
+      const select = dropdown.querySelector(".select");
+      const caret = dropdown.querySelector(".caret");
+      const menu = dropdown.querySelector(".menu");
+      const options = dropdown.querySelectorAll(".menu li");
+      const selected = dropdown.querySelector(".selected");
+      select.addEventListener("click", () => {
+        select.classList.toggle("select-clicked");
+        caret.classList.toggle("caret-rotate");
+        menu.classList.toggle("menu-open");
+      });
+      options.forEach((option) => {
+        option.addEventListener("click", () => {
+          selected.innerText = option.innerText;
+          select.classList.remove("select-clicked");
+          caret.classList.remove("caret-rotate");
+          menu.classList.remove("menu-open");
+          options.forEach((option) => {
+            option.classList.remove("active");
+          });
+          option.classList.add("active");
+        });
+      });
+    </script>
+
+    <script src="https://use.fontawesome.com/1744f3f671.js"></script>
+    <script>
+      var testim = document.getElementById("testim"),
+        testimDots = Array.prototype.slice.call(
+          document.getElementById("testim-dots").children
+        ),
+        testimContent = Array.prototype.slice.call(
+          document.getElementById("testim-content").children
+        ),
+        testimLeftArrow = document.getElementById("left-arrow"),
+        testimRightArrow = document.getElementById("right-arrow"),
+        testimSpeed = 4500,
+        currentSlide = 0,
+        currentActive = 0,
+        testimTimer,
+        touchStartPos,
+        touchEndPos,
+        touchPosDiff,
+        ignoreTouch = 30;
+      window.onload = function () {
+        // Testim Script
+        function playSlide(slide) {
+          for (var k = 0; k < testimDots.length; k++) {
+            testimContent[k].classList.remove("active");
+            testimContent[k].classList.remove("inactive");
+            testimDots[k].classList.remove("active");
+          }
+
+          if (slide < 0) {
+            slide = currentSlide = testimContent.length - 1;
+          }
+
+          if (slide > testimContent.length - 1) {
+            slide = currentSlide = 0;
+          }
+
+          if (currentActive != currentSlide) {
+            testimContent[currentActive].classList.add("inactive");
+          }
+          testimContent[slide].classList.add("active");
+          testimDots[slide].classList.add("active");
+
+          currentActive = currentSlide;
+
+          clearTimeout(testimTimer);
+          testimTimer = setTimeout(function () {
+            playSlide((currentSlide += 1));
+          }, testimSpeed);
+        }
+
+        testimLeftArrow.addEventListener("click", function () {
+          playSlide((currentSlide -= 1));
+        });
+
+        testimRightArrow.addEventListener("click", function () {
+          playSlide((currentSlide += 1));
+        });
+
+        for (var l = 0; l < testimDots.length; l++) {
+          testimDots[l].addEventListener("click", function () {
+            playSlide((currentSlide = testimDots.indexOf(this)));
+          });
+        }
+
+        playSlide(currentSlide);
+
+        // keyboard shortcuts
+        document.addEventListener("keyup", function (e) {
+          switch (e.keyCode) {
+            case 37:
+              testimLeftArrow.click();
+              break;
+
+            case 39:
+              testimRightArrow.click();
+              break;
+
+            case 39:
+              testimRightArrow.click();
+              break;
+
+            default:
+              break;
+          }
+        });
+
+        testim.addEventListener("touchstart", function (e) {
+          touchStartPos = e.changedTouches[0].clientX;
+        });
+
+        testim.addEventListener("touchend", function (e) {
+          touchEndPos = e.changedTouches[0].clientX;
+
+          touchPosDiff = touchStartPos - touchEndPos;
+
+          console.log(touchPosDiff);
+          console.log(touchStartPos);
+          console.log(touchEndPos);
+
+          if (touchPosDiff > 0 + ignoreTouch) {
+            testimLeftArrow.click();
+          } else if (touchPosDiff < 0 - ignoreTouch) {
+            testimRightArrow.click();
+          } else {
+            return;
+          }
+        });
+      };
+    </script>
+    <script src="//unpkg.com/alpinejs" defer></script>
+  </body>
+</html>

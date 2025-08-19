@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RO_Kart</title>
+
+    <link rel="icon" href="../../admin/assets/img/menu_logo.svg" type="image" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Link Aqua Kana font from Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Aqua+Kana&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Link Quantico font from Google Fonts -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Quantico:wght@300;400;500;600;700;800&display=swap"
+    />
+
+    <!-- Include Tailwind CSS via CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+ <script src="//code.jquery.com/jquery.min.js"></script>     
+  <script src="../../admin/scripts/details_views/home.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+      /* Custom Tailwind CSS utilities */
+      @tailwind base;
+      @tailwind components;
+      @tailwind utilities;
+
+      .font-aquakana {
+        font-family: "Aqua Kana", sans-serif;
+      }
+      .font-quantico {
+        font-family: "Quantico", sans-serif;
+      }
+
+      .bgYellow {
+        background-color: #ffd400;
+      }
+      .txtYellow {
+        color: #fcd202;
+      }
+      .bgSky {
+        background-color: #00a2d3;
+      }
+      .bgLogo {
+        background-color: #f5f5f5;
+      }
+      .bgHeader {
+        background-color: #222222;
+      }
+      .border-yellow {
+        border-color: #ffd400;
+      }
+      .border-sky {
+        border-color: #00a2d3;
+      }
+      .mainContainer {
+        max-width: 1020px;
+      }
+      .menu:hover {
+        background-color: #ffd400;
+        transition: 0.3s ease-in-out;
+      }
+      .menu:hover h4 {
+        color: #000;
+        transition: 0.3s ease-in-out;
+      }
+      #about {
+        background-color: #ffd400;
+        
+      }
+      #about h4 {
+        color: #000 !important;
+      }
+      .borderFull {
+        border: 1px solid #414141;
+      }
+      .txtFooter {
+        color: #caced0;
+      }
+      .bgFooter {
+        background-color: #171717;
+      }
+      .txtRoCart {
+        color: #f4f4f4;
+      }
+      .min-w-10 {
+        min-width: 40px;
+      }
+      .bgWhatsApp {
+        background-color: #03918a;
+      }
+      .borderRight {
+        border-right: 1px solid #515050;
+      }
+      .bgRafer {
+        background-image: url("../../admin/assets/img/images/bgRefer.png");
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+      .h-80vh {
+        height: 80vh;
+      }
+      .bgCopyButton {
+        background-color: #f1ca44;
+      }
+      .bgFormHeader {
+        background-color: #f0bc5e;
+      }
+      .right-1 {
+        right: 4px;
+      }
+      /* dropdown  */
+
+      .service .dropdown {
+        min-width: 15em;
+        position: relative;
+        top: 0;
+      }
+      .service .select {
+        background: #fff;
+        color: #000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px #00a2d3 solid;
+        border-radius: 0.5em;
+        padding: 0.7em;
+        cursor: pointer;
+        transition: 0.3s;
+        border-radius: 12px;
+      }
+      .service .select-clicked {
+        border: 2px #26489a solid;
+        box-shadow: 0 0 0.8em #26489a;
+      }
+      .service .select:hover {
+        background: #fff;
+      }
+      .service .caret {
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 6px solid #000;
+        transition: 0.3s;
+      }
+      .service .caret-rotate {
+        transform: rotate(180deg);
+      }
+      .service .menu {
+        list-style: none;
+        padding: 0.2em 0.5em;
+        background: #323741;
+        border: 1px #363a43 solid;
+        box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.2);
+        border-radius: 0.5em;
+        color: #9fa5b5;
+        position: absolute;
+        top: 4em;
+        left: 50%;
+        width: 100%;
+        transform: translateX(-50%);
+        opacity: 0;
+        display: none;
+        transition: 0.2s;
+        z-index: 1;
+      }
+      .service .menu li {
+        padding: 0.7em 0.5em;
+        margin: 0.3em 0;
+        border-radius: 0.5em;
+        cursor: pointer;
+      }
+      .service .menu li:hover {
+        background: #2a2d35;
+      }
+      .service .active {
+        background: #23242a;
+      }
+      .service .menu-open {
+        display: block;
+        opacity: 1;
+      }
+      .w-600 {
+        max-width: 600px;
+      }
+      .p-2p {
+        padding: 2px;
+      }
+      .txtRoReady {
+        color: #efbc22;
+      }
+      .bgHomeFabrication {
+        background-color: #f6f6f6;
+      }
+      .bgRequestACall {
+        background-image: url("../../admin/assets/img/images/requestACallLeft.png"),
+          url("../../admin/assets/img/images/requestACallRight.png");
+        background-position: top left, bottom right;
+        background-repeat: no-repeat;
+      }
+
+      .shadow-3xl {
+        box-shadow: 2px 2px 2px 2px #000;
+      }
+      .silverText-gradient {
+        background: linear-gradient(to right, #c2cfd7, #dae9f2, #ebf1f5);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-weight: 700;
+        font-family: "Quantico", sans-serif;
+      }
+      .silverText-border {
+        background: linear-gradient(to right, #9c9c9c, #d4d1c7, #ebf1f5);
+      }
+      .goldText-gradient {
+        background: linear-gradient(to right, #ffd924, #fffae7, #e9b70b);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-weight: 700;
+        font-family: "Quantico", sans-serif;
+      }
+      .goldText-border {
+        background: linear-gradient(to right, #ffd82d, #d4d1c7, #1d1d1d);
+      }
+      .p-2p {
+        padding: 2px;
+      }
+      .py-5p {
+        padding-top: 5px;
+        padding-bottom: 5px;
+      }
+      .scale-95:hover {
+        transform: scale(0.95);
+        transition: all 0.3s ease-in-out;
+      }
+      .rotate:hover img {
+        transform: scale(0.90) rotate(calc(-360deg));
+        transition: all 1s ease-in-out;
+      }
+      .txtSpareCard {
+        color: #181817;
+      }
+      .borderBottom {
+        border-bottom: 1px solid #42423f;
+      }
+      .bgOurProduct {
+        background-color: #484744;
+      }
+      .borderListSilver {
+        border: 1px solid #b3b3b1;
+      }
+      .txtSilverCard {
+        color: #e9f1f5;
+      }
+      .w-fit {
+        width: fit-content;
+      }
+      .mobile-menu {
+        display: none;
+      }
+
+      @media all and (max-width: 500px) {
+        .border-hide {
+          border: none;
+        }
+      }
+    </style>
+
+    <script>
+      // Tailwind CSS configuration
+      window.tailwind = {
+        theme: {
+          extend: {
+            fontFamily: {
+              aquakana: ["Aqua Kana", "sans-serif"],
+            },
+            colors: {
+              // Define custom colors
+              bgYellow: "#FFD400",
+              txtYellow: "#FCD202",
+              bgSky: "#00A2D3",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-black">
+
+    <!-- Header sticky start  -->
+
+    <div class="mainContainer w-full lg:mx-auto px-2 lg:top-8 top-2 sticky z-20">
+        <div
+          class="w-full bgHeader rounded-xl w-full p-1 flex items-center justify-between"
+        >
+          <div
+            class="bgLogo rounded-xl p-2 h-11 sm:h-full sm:w-32 w-20 overflow-hidden"
+          >
+            <img src="../../admin/assets/img/images/logo.png" class="w-full h-full" alt="ro_cart" />
+          </div>
+          <div class="flex items-center gap-1">
+            <a href="/" class="hidden lg:block">
+              <div
+                class="bg-black bg-black rounded-xl border border-yellow px-6 py-3 menu"
+              >
+                <h4 class="font-aquakana font-normal txtYellow text-xl">
+                  Home
+                </h4>
+              </div>
+            </a>
+            <a href="/products" class="hidden lg:block">
+              <div
+                class="bg-black rounded-xl border border-yellow px-4 py-3 menu"
+              >
+                <h4 class="font-aquakana font-normal txtYellow text-xl">
+                  Products
+                </h4>
+              </div>
+            </a>
+            <a href="/subscription" class="hidden lg:block">
+              <div
+                class="bg-black rounded-xl border border-yellow px-4 py-3 menu"
+              >
+                <h4 class="font-aquakana font-normal txtYellow text-xl">
+                  Subscription
+                </h4>
+              </div>
+            </a>
+            <a href="aboutUs" class="hidden lg:block">
+              <div
+              id="about"
+                class="bg-black rounded-xl border border-yellow px-4 py-3 menu"
+              >
+                <h4 class="font-aquakana font-normal txtYellow text-xl">
+                  About Us
+                </h4>
+              </div>
+            </a>
+            <a href="#requestACall" class="scale-95">
+              <div
+                class="bgSky rounded-xl border border-sky sm:px-4 px-3 py-2 flex items-center gap-3"
+              >
+                <div class="sm:w-10 sm:h-10 w-6 h-6 overflow-hidden">
+                  <img
+                    src="../../admin/assets/img/images/PhoneIncoming.png"
+                    alt="Phone Incoming"
+                    class="w-full h-full"
+                  />
+                </div>
+                <h4
+                  class="font-aquakana font-normal text-white sm:text-xl text-base"
+                >
+                  Request a Call
+                </h4>
+              </div>
+            </a>
+          </div>
+          <!-- mobile view  -->
+          <div class="relative lg:hidden">
+            <div
+              class="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded cursor-pointer"
+              id="menu-btn"
+            >
+              <img
+                src="../../admin/assets/img/images/Hamburger_icon.png"
+                class="w-full h-full"
+                alt="Hamburger_icon"
+              />
+            </div>
+            <div
+              class="absolute top-10 sm:top-12 right-0 w-36 text-center bg-white shadow-xl rounded-xl mobile-menu"
+            >
+              <a href="/">
+                <h4
+                  class="font-aquakana font-normal text-black text-lg py-2 my-1"
+                >
+                  Home
+                </h4>
+              </a>
+              <a href="/products">
+                <h4
+                  class="font-aquakana font-normal text-black text-lg py-2 my-1"
+                >
+                  Products
+                </h4>
+              </a>
+              <a href="/subscription">
+                <h4
+                  class="font-aquakana font-normal text-black text-lg py-2 my-1"
+                >
+                Subscription
+                </h4>
+              </a>
+              <a href="/aboutUs">
+                <h4 id="about"
+                  class="font-aquakana font-normal text-black text-lg py-2 my-1"
+                >
+                  About Us
+                </h4>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- Header sticky start  -->
+
+
+    <!-- Header start -->
+    
+    <div class="bg-black h-full md:pb-28 pb-10 md:pt-10">
+      
+      <div class="borderBottom pb-7"></div>
+      <div class="breadCrumb mainContainer lg:mx-auto ml-4">
+        <p class="font-aquakana text-sm font-semibold text-white pt-2">
+          <span class="opacity-70 font-normal"> Home </span>/ About Us
+        </p>
+      </div>
+
+      <!-- About Our Company start  -->
+
+      <div class="bgSubscription py-1">
+        <div class="mainContainer lg:mx-auto mx-4">
+          <div class="flex items-center justify-start gap-4">
+            <div
+              class="txtYellow font-semibold sm:text-5xl text-3xl py-2 font-aquakana"
+            >
+            About Our Company
+            </div>
+          </div>
+          <div class="grid sm:grid-cols-2 grid-cols-1">
+            <div class="w-full mt-10">
+                <h2 class="sm:text-5xl text-3xl font-aquakana text-white font-semibold mb-5">
+                    RO Kart 
+                </h2>
+                <p class="sm:text-2xl text-xl font-aquakana text-white font-thin mb-7">RO Kart monthly rental RO subscription service at Varanasi. RO Kart Provide all kinds of Domestic/ industrial RO repair and service at very competitive price. We provide world class RO engineer who solved your problem in across India.</p>
+                <p class="sm:text-2xl text-xl font-aquakana text-white font-thin mb-7">
+                    RO Kart is a RO rental-based service company. If you are looking for a rental RO in Varanasi, we are the perfect option for you. We have the best team to fulfill your requirements. We give smart RO Water purifiers on rent in Varanasi and offer monthly rental RO in Varanasi as well. If you are searching "RO on rent near me", then RO Kart is the best solution for you. We offer the best price of only Rs. 11/- per Day! Don't wait to reach out to our experts and get the best RO for your family at only Rs.11 per day. We also
+                </p>
+                <p class="sm:text-2xl text-xl font-aquakana text-white font-thin mb-7">
+                    offer RO services starting at a simple cost of Rs.190/-. Reach out to our experts today itself to give your RO the best service in Varanasi. Give your family the gift of purity with our rental RO in Varanasi.
+                </p>
+            </div>
+            <div class="w-full flex flex-row sm:flex-col items-end py-10 gap-7">
+                <div class="bgOurProduct rounded sm:p-10 p-4 w-fit flex justify-center">
+                    <img src="../../admin/assets/img/images/goldSubscription.png" alt="Gold Subscription" class="" />
+                </div>
+                <div class="bgOurProduct rounded sm:p-10 p-4 w-fit flex justify-center">
+                    <img src="../../admin/assets/img/images/silverSubscription.png" alt="Silver Subscription" class="" />
+                </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+      <!-- About Our Company end  -->
+    </div>
+    <!-- Header end -->
+
+    <!-- Request A Call start -->
+<form id="requestACallForm">
+    <div id="requestACall" class="bgSky bgRequestACall md:py-28 py-16">
+      <div class="mainContainer mx-auto">
+        <div
+          class="bg-white h-fit w-600 md:mx-auto sm:mx-7 mx-4 rounded-xl p-2p shadow-md"
+        >
+          <div class="bgFormHeader rounded-t-xl px-4 py-2">
+            <h2
+              class="sm:text-3xl text-xl text-black font-medium font-aquakana"
+            >
+              Request a Call
+            </h2>
+          </div>
+          <div class="px-4 py-3">
+            <div class="w-full pb-4">
+              <label class="font-aquakana font-medium text-black text-lg pb-1"
+                >Name</label
+              >
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter Full Name"
+                class="bg-white w-full focus:border-black border border-sky rounded-xl h-12 pl-4 text-black font-normal font-aquakana placeholder:text-black shadow-md"
+              />
+            </div>
+            <div class="w-full pb-4">
+              <label class="font-aquakana font-medium text-black text-lg pb-1"
+                >Mobile Number</label
+              >
+              <input
+                type="text"
+                id="mobileNo"
+                name="mobileNo"
+                placeholder="Enter Mobile Number"
+                class="bg-white w-full focus:border-black border border-sky rounded-xl h-12 pl-4 text-black font-normal font-aquakana placeholder:text-black shadow-md"
+              />
+            </div>
+            <div class="w-full pb-4">
+              <label class="font-aquakana font-medium text-black text-lg pb-1"
+                >Email</label
+              >
+              <input
+                type="text"
+                id="email"
+                name="email"
+                placeholder="Enter Email"
+                class="bg-white w-full focus:border-black border border-sky rounded-xl h-12 pl-4 text-black font-normal font-aquakana placeholder:text-black shadow-md"
+              />
+            </div>
+            <div class="w-full pb-4">
+              <label class="font-aquakana font-medium text-black text-lg pb-1"
+                >Pin Code</label
+              >
+              <input
+                type="text"
+                id="pincode"
+                name="pincode"
+                placeholder="Enter Pin Code"
+                class="bg-white w-full focus:border-black border border-sky rounded-xl h-12 pl-4 text-black font-normal font-aquakana placeholder:text-black shadow-md"
+              />
+            </div>
+            <div class="w-full service pb-8">
+              <label class="font-aquakana font-medium text-black text-lg pb-1"
+                >Services</label
+              >
+              <div class="dropdown shadow-md">
+                <div class="select">
+                  <span class="selected">Current Drinking Water Source</span>
+                  <div class="caret"></div>
+                </div>
+                <ul class="menu">
+                  <li class="active">Water purifiers</li>
+                  <li>Direct from tap</li>
+                  <li>Govt supply water</li>
+                </ul>
+              </div>
+            </div>
+            <div class="w-full">
+              <button
+                type="submit" id="button"
+                class="h-12 bgSky text-white font-aquakana rounded-xl outline-none hover:scale-95 w-full px-8"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</form>
+    <!-- Request A Call end -->
+
+    <!-- Footer start -->
+
+    <div class="bgFooter w-full">
+      <div class="mainContainer w-full lg:mx-auto px-2">
+        <div class="sm:flex block items-center py-10">
+          <div class="sm:w-2/5 w-full pb-6 md:pb-0">
+            <div class="flex items-end sm:gap-6 gap-3">
+              <div
+                class="bgLogo rounded-xl p-2 h-full sm:w-32 w-28 overflow-hidden"
+              >
+                <img
+                  src="../../admin/assets/img/images/logo.png"
+                  class="w-full h-full"
+                  alt="ro_cart"
+                />
+              </div>
+              <div class="sm:w-32 w-28 h-full overflow-hidden">
+                <img
+                  src="../../admin/assets/img/images/trustedBrand.png"
+                  class="w-full h-full"
+                  alt="Trusted Brand"
+                />
+              </div>
+            </div>
+            <div class="py-5">
+              <h4 class="font-aquakana text-base font-semibold txtRoCart">
+                RO Kart Sales and service
+              </h4>
+            </div>
+            <div class="flex items-center sm:gap-6 gap-3 rotate">
+              <div
+                class="border border-white rounded-full p-2 bgFooter min-w-10 h-10"
+              >
+                <img
+                  src="../../admin/assets/img/images/location.png"
+                  class="w-full h-full"
+                  alt="Location"
+                />
+              </div>
+              <h4
+                class="font-aquakana text-base font-normal txtRoCart opacity-90"
+              >
+                S 2/1-1 K, Tagore Town, Bhojuveer, Varanasi, Uttar Pradesh
+                221002
+              </h4>
+            </div>
+            <div class="flex items-center sm:gap-6 gap-3 py-6 rotate">
+              <div
+                class="border border-white rounded-full p-2 bgFooter min-w-10 h-10"
+              >
+                <img src="../../admin/assets/img/images/sms.png" class="w-full h-full" alt="Sms" />
+              </div>
+              <h4
+                class="font-aquakana text-base font-normal txtRoCart opacity-90"
+              >
+                rokart.india@gmail.com
+              </h4>
+            </div>
+            <div class="flex items-center sm:gap-6 gap-3 rotate">
+              <div
+                class="border border-white rounded-full p-2 bgFooter min-w-10 h-10"
+              >
+                <img src="../../admin/assets/img/images/call.png" class="w-full h-full" alt="Call" />
+              </div>
+              <h4 class="font-aquakana text-lg font-semibold txtRoCart">
+                +91 7800778884, +91 7800778880
+              </h4>
+            </div>
+          </div>
+          <div class="sm:w-3/5 w-full">
+            <div class="flex gap-2 items-center sm:justify-end">
+              <a href="#requestACall" class="scale-95">
+                <div
+                  class="bgSky rounded-md border border-sky sm:px-3 px-2 py-1 flex items-center gap-3"
+                >
+                  <div class="sm:w-8 sm:h-8 w-5 h-5 overflow-hidden">
+                    <img
+                      src="../../admin/assets/img/images/PhoneIncoming.png"
+                      alt="Phone Incoming"
+                      class="w-full h-full"
+                    />
+                  </div>
+                  <h4 class="font-aquakana font-normal text-white text-base">
+                    Request a Call
+                  </h4>
+                </div>
+              </a>
+              <a href="#" class="scale-95">
+                <div
+                  class="bgWhatsApp rounded-md sm:px-3 px-2 py-5p flex items-center gap-3"
+                >
+                  <div class="sm:w-8 sm:h-8 w-5 h-5 overflow-hidden">
+                    <img
+                      src="../../admin/assets/img/images/whatsappIcon.png"
+                      alt="Phone Incoming"
+                      class="w-full h-full"
+                    />
+                  </div>
+                  <h4 class="font-aquakana font-normal text-white text-base">
+                    Whatsapp
+                  </h4>
+                </div>
+              </a>
+            </div>
+            <div class="py-5 sm:text-right">
+              <h4 class="font-aquakana text-base font-semibold txtRoCart">
+                Support & Policies
+              </h4>
+            </div>
+            <div
+              class="flex md:flex-row flex-col block sm:justify-end sm:items-end gap-4 md:gap-0"
+            >
+              <div class="px-4 borderRight">
+                <a href="/u_terms">
+                <p
+                  class="font-aquakana text-base font-normal txtRoCart opacity-90"
+                >
+                  Terms & Conditions
+                </p>
+                </a>
+              </div>
+              <div class="px-4 borderRight">
+                <a href="/u_privacy">
+                <p
+                  class="font-aquakana text-base font-normal txtRoCart opacity-90"
+                >
+                  Privacy & Policy
+                </p>
+                </a>
+              </div>
+              <div class="px-4 borderRight">
+                <a href="/refund_policy">
+                <p
+                  class="font-aquakana text-base font-normal txtRoCart opacity-90"
+                >
+                  Refund Policy
+                </p>
+                </a>
+              </div>
+              <div class="px-4">
+                <a href="#requestACall">
+                <p
+                  class="font-aquakana text-base font-normal txtRoCart opacity-90"
+                >
+                  Contact Us
+                </p>
+              </a>
+              </div>
+            </div>
+            <div class="py-5 sm:text-right">
+              <h4 class="font-aquakana text-base font-semibold txtRoCart">
+                Social Media
+              </h4>
+            </div>
+            <div class="flex items-center sm:justify-end sm:gap-6 gap-3">
+              <div class="w-10 h-10 p-2 bgYellow rounded-full">
+                <a href="https://www.youtube.com/channel/UC50BQWtFyE8xgJ5O9YZIejg" target="_blank" rel="noopener noreferrer">
+                                <img
+                  src="../../admin/assets/img/images/youTube.png"
+                  alt="You Tube"
+                  class="w-full h-full"
+                /></a>
+              </div>
+              <div class="w-10 h-10 p-2 bgYellow rounded-full">
+                <a href="https://www.facebook.com/rokartindia/" target="_blank" rel="noopener noreferrer">
+                  <img
+                  src="../../admin/assets/img/images/facebook.png"
+                  alt="You Tube"
+                  class="w-full h-full"
+                /></a>
+              </div>
+              <div class="w-10 h-10 p-2 bgYellow rounded-full">
+                <a href="https://www.instagram.com/rokart.in/" target="_blank" rel="noopener noreferrer">
+                  <img
+                  src="../../admin/assets/img/images/instagram.png"
+                  alt="You Tube"
+                  class="w-full h-full"
+                /></a>
+              </div>
+            </div>
+                <!-- download app start -->
+
+          <div class="flex sm:justify-end sm:gap-6 gap-5 mt-5">
+            <a
+              href="https://play.google.com/store/apps/details?id=com.rokart.user"
+              target="_blank"
+            >
+              <div class="sm:w-40 w-36 h-10">
+                <img
+                  src="../../admin/assets/img/images/playStore.png"
+                  alt="Play Store"
+                  class="w-full h-full"
+                />
+              </div>
+            </a>
+            <a
+              href="https://apps.apple.com/in/app/ro-kart/id6503284624"
+              target="_blank"
+            >
+              <div class="sm:w-40 w-36 h-10">
+                <img
+                  src="../../admin/assets/img/images/appStore.png"
+                  alt="App Store"
+                  class="w-full h-full"
+                />
+              </div>
+            </a>
+          </div>
+
+          <!-- download app end -->
+          </div>
+        </div>
+      </div>
+      <div class="borderFull w-full"></div>
+      <div class="text-center w-full py-4">
+        <p class="txtFooter font-aquakana text-sm">
+          © 2025 RO Kart Sales & Services. All rights reserved.
+           </p>
+      </div>
+    </div>
+    <!-- Footer end -->
+
+    <script>
+        // JavaScript to show/hide the mobile menu
+document.addEventListener('DOMContentLoaded', function() {
+  var menuBtn = document.getElementById('menu-btn');
+  var mobileMenu = document.querySelector('.mobile-menu');
+
+  menuBtn.addEventListener('click', function() {
+    // Toggle the visibility of the mobile menu
+    if (mobileMenu.style.display === 'none') {
+      mobileMenu.style.display = 'block';
+    } else {
+      mobileMenu.style.display = 'none';
+    }
+  });
+});
+    </script>
+
+    <script>
+      const dropdown = document.querySelector(".dropdown");
+      const select = dropdown.querySelector(".select");
+      const caret = dropdown.querySelector(".caret");
+      const menu = dropdown.querySelector(".menu");
+      const options = dropdown.querySelectorAll(".menu li");
+      const selected = dropdown.querySelector(".selected");
+      select.addEventListener("click", () => {
+        select.classList.toggle("select-clicked");
+        caret.classList.toggle("caret-rotate");
+        menu.classList.toggle("menu-open");
+      });
+      options.forEach((option) => {
+        option.addEventListener("click", () => {
+          selected.innerText = option.innerText;
+          select.classList.remove("select-clicked");
+          caret.classList.remove("caret-rotate");
+          menu.classList.remove("menu-open");
+          options.forEach((option) => {
+            option.classList.remove("active");
+          });
+          option.classList.add("active");
+        });
+      });
+    </script>
+
+    <script src="https://use.fontawesome.com/1744f3f671.js"></script>
+    <script>
+      var testim = document.getElementById("testim"),
+        testimDots = Array.prototype.slice.call(
+          document.getElementById("testim-dots").children
+        ),
+        testimContent = Array.prototype.slice.call(
+          document.getElementById("testim-content").children
+        ),
+        testimLeftArrow = document.getElementById("left-arrow"),
+        testimRightArrow = document.getElementById("right-arrow"),
+        testimSpeed = 4500,
+        currentSlide = 0,
+        currentActive = 0,
+        testimTimer,
+        touchStartPos,
+        touchEndPos,
+        touchPosDiff,
+        ignoreTouch = 30;
+      window.onload = function () {
+        // Testim Script
+        function playSlide(slide) {
+          for (var k = 0; k < testimDots.length; k++) {
+            testimContent[k].classList.remove("active");
+            testimContent[k].classList.remove("inactive");
+            testimDots[k].classList.remove("active");
+          }
+
+          if (slide < 0) {
+            slide = currentSlide = testimContent.length - 1;
+          }
+
+          if (slide > testimContent.length - 1) {
+            slide = currentSlide = 0;
+          }
+
+          if (currentActive != currentSlide) {
+            testimContent[currentActive].classList.add("inactive");
+          }
+          testimContent[slide].classList.add("active");
+          testimDots[slide].classList.add("active");
+
+          currentActive = currentSlide;
+
+          clearTimeout(testimTimer);
+          testimTimer = setTimeout(function () {
+            playSlide((currentSlide += 1));
+          }, testimSpeed);
+        }
+
+        testimLeftArrow.addEventListener("click", function () {
+          playSlide((currentSlide -= 1));
+        });
+
+        testimRightArrow.addEventListener("click", function () {
+          playSlide((currentSlide += 1));
+        });
+
+        for (var l = 0; l < testimDots.length; l++) {
+          testimDots[l].addEventListener("click", function () {
+            playSlide((currentSlide = testimDots.indexOf(this)));
+          });
+        }
+
+        playSlide(currentSlide);
+
+        // keyboard shortcuts
+        document.addEventListener("keyup", function (e) {
+          switch (e.keyCode) {
+            case 37:
+              testimLeftArrow.click();
+              break;
+
+            case 39:
+              testimRightArrow.click();
+              break;
+
+            case 39:
+              testimRightArrow.click();
+              break;
+
+            default:
+              break;
+          }
+        });
+
+        testim.addEventListener("touchstart", function (e) {
+          touchStartPos = e.changedTouches[0].clientX;
+        });
+
+        testim.addEventListener("touchend", function (e) {
+          touchEndPos = e.changedTouches[0].clientX;
+
+          touchPosDiff = touchStartPos - touchEndPos;
+
+          console.log(touchPosDiff);
+          console.log(touchStartPos);
+          console.log(touchEndPos);
+
+          if (touchPosDiff > 0 + ignoreTouch) {
+            testimLeftArrow.click();
+          } else if (touchPosDiff < 0 - ignoreTouch) {
+            testimRightArrow.click();
+          } else {
+            return;
+          }
+        });
+      };
+    </script>
+    <script src="//unpkg.com/alpinejs" defer></script>
+  </body>
+</html>
