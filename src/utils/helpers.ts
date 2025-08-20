@@ -146,7 +146,7 @@ const all_participant_seen_msg = async (data: any) => {
       [
         {
           $set: {
-            read_status: {
+            readStatus: {
               $cond: [
                 {
                   $eq: [
@@ -170,6 +170,7 @@ const all_participant_seen_msg = async (data: any) => {
       ]
     );
     console.log("all_participant_seen_msg");
+    return true;
   } catch (err) {
     console.log("all_participant_seen_msg :", err);
   }
@@ -247,32 +248,18 @@ const left_all_rooms = async (data: any) => {
       { participantId: data.userId, isDelete: false },
       { roomId: 1 }
     ).lean();
-    await delete_user_all_data(userId);
     if (!rooms.length) return;
 
     const roomIds = rooms.map(r => r.roomId);
 
-    // Step 2: Find all other participants in those rooms
-    const otherParticipants = await chat_room_participantModel.find(
-      {
-        roomId: { $in: roomIds },
-        participantId: { $ne: data.userId },
-        isDelete: false
-      },
-      { participantId: 1 }
-    ).lean();
-
-    const participantIds = [...new Set(otherParticipants.map((p: any) => p.participantId))];
-
-    if (!participantIds.length) return;
-
-    // Step 3: Find their active socket connections
+    // Step 2: Find their active socket connections
     const usersWithSockets = await dynamic_roomModel.aggregate([
       {
         $match: {
-          joinedBy: { $in: participantIds },
-          roomId: { $ne: null },
-          // isActive: true
+          // joinedBy: { $in: participantIds },
+          roomId: { $ne: roomIds },
+          joinedBy: { $ne: userId },
+          isActive: true
         }
       },
       {
@@ -282,8 +269,8 @@ const left_all_rooms = async (data: any) => {
       },
       {
         $lookup: {
-          foreignField: "roomId",
-          localField: "uniqueId",
+          foreignField: "uniqueId",
+          localField: "roomId",
           from: "chat_rooms",
           as: "roomDetails",
           pipeline: [
@@ -328,6 +315,7 @@ const left_all_rooms = async (data: any) => {
         await notify_to_connected_users(arr);
       };
     }
+    await delete_user_all_data(userId);
     console.log("Left all rooms for user from admin:", userId);
   } catch (err) {
     console.error("Error in left_all_rooms:", err);
@@ -346,6 +334,11 @@ const delete_user_all_data = async (userId: string) => {
           await deleteGroupFolder(`group-chat-assets/${room.roomId}`);
         } else if (room.addBy != userId && room.isGroup === true) {
           await chat_room_participantModel.deleteOne({ participantId: userId });
+        } if (room.addBy == userId && room.isGroup == false) {
+          await chat_room_messageModel.deleteMany({ roomId: room.roomId });
+          await chat_room_participantModel.deleteMany({ roomId: room.roomId });
+          await chat_roomModel.deleteOne({ uniqueId: room.roomId });
+          await deleteGroupFolder(`group-chat-assets/${room.roomId}`);
         } else {
           await chat_room_messageModel.deleteMany({ roomId: room.roomId });
           await chat_room_participantModel.deleteMany({ roomId: room.roomId, isGroup: false });
@@ -389,6 +382,106 @@ const added_user_to_room = async (data: any) => {
   }
 }
 
+const offline_online_all_rooms = async (data: any) => {
+  try {
+    const { userId, status } = data;
+    // Step 1: Find all rooms where deleted user was a participant
+    const rooms = await chat_room_participantModel.find(
+      { participantId: data.userId, isDelete: false },
+      { roomId: 1 }
+    ).lean();
+    if (!rooms.length) return;
+
+    const roomIds = rooms.map(r => r.roomId);
+    console.log("rooms", roomIds)
+
+    // // Step 2: Find all other participants in those rooms
+    // const otherParticipants = await chat_room_participantModel.find(
+    //   {
+    //     roomId: { $in: roomIds },
+    //     participantId: { $ne: data.userId },
+    //     isDelete: false
+    //   },
+    //   { participantId: 1 }
+    // ).lean();
+
+    // const participantIds = [...new Set(otherParticipants.map((p: any) => p.participantId))];
+    // console.log("participantIds", participantIds);
+
+    // if (!participantIds.length) return;
+
+    // Step 3: Find their active socket connections
+    const usersWithSockets = await dynamic_roomModel.aggregate([
+      {
+        $match: {
+          // joinedBy: { $in: participantIds },
+          roomId: { $in: roomIds },
+          joinedBy: { $ne: userId },
+          isActive: true
+        }
+      },
+      {
+        $project: {
+          roomId: 1
+        }
+      },
+      {
+        $lookup: {
+          foreignField: "uniqueId",
+          localField: "roomId",
+          from: "chat_rooms",
+          as: "roomDetails",
+          pipeline: [
+            {
+              $match: {
+                isDelete: false
+              }
+            },
+            {
+              $project: {
+                name: 1,
+                isGroup: 1
+              }
+            }
+          ]
+        }
+      },
+      {
+        $unwind: "$roomDetails"
+      }
+    ]);
+    console.log("usersWithSockets ====>", usersWithSockets)
+    let arr = []
+    if (status == "offline") {
+      await dynamic_roomModel.updateMany({ roomId: { $in: roomIds }, joinedBy: userId, isActive: true }, { isActive: false, last_online_timeStamp: generate_timestamp_In_seconds() });
+    }
+    if (usersWithSockets.length) {
+      for (let u of usersWithSockets) {
+        const emit_details = {
+          "roomId": u.roomId,
+          // "leftTo_name": data.name,
+          // "leftBy_name": 'admin',
+          // "roomName": u.roomDetails.isGroup == true ? u.roomDetails.name : data.name,
+          // "actionId": data.userId,
+          // "leftBy_role": 'admin',
+          "message": status,
+          "senderId": data.userId,
+          "sender_name": data.name,
+          "messageType": status == "online" ? "online" : "offline",
+          "send_timeStamp": generate_timestamp_In_seconds() // In seconds
+        }
+        arr.push(emit_details);
+      }
+      if (arr.length) {
+        await notify_to_connected_users(arr);
+      };
+    }
+    console.log("Left all rooms for user from admin:", userId);
+  } catch (err) {
+    console.error("Error in left_all_rooms:", err);
+  }
+}
+
 export {
   generate_refreshToken,
   generate_accessToken,
@@ -404,5 +497,6 @@ export {
   delete_user_all_data,
   added_user_to_room,
   encrypt,
-  decrypt
+  decrypt,
+  offline_online_all_rooms
 };

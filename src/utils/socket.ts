@@ -1,5 +1,5 @@
 import { generate_timestamp_In_seconds, identityGenerator, update_msg_status } from "./helpers";
-import { chat_room_messageModel, chat_room_participantModel, dynamic_roomModel, userModel } from "@models/index";
+import { chat_room_messageModel, chat_room_participantModel, dynamic_roomModel, sessionModel, userModel } from "@models/index";
 import { sendMsg_notification } from "./notification";
 // const { io } = require('../index');
 // const nsp1 = io.of(`${process.env.ChannelName}`)
@@ -120,7 +120,7 @@ const save_chat_messages = async (data: chat_room_message) => {
                     if (item.paticipantDetails.onlineStatus == true && item.paticipantDetails.isNotification == true) {
                         const check_join_roomDetails = await dynamic_roomModel.aggregate([
                             {
-                                $match: { roomId: data.roomId, joinedBy: item.paticipantDetails.uniqueId, isActive: false }
+                                $match: { roomId: data.roomId, joinedBy: item.participantId }
                             },
                             {
                                 $lookup: {
@@ -149,7 +149,31 @@ const save_chat_messages = async (data: chat_room_message) => {
                             }
                         ]);
                         if (check_join_roomDetails.length > 0) {
-                            const deviceToken = check_join_roomDetails[0].sessionDetails.deviceToken;
+                            if (check_join_roomDetails[0].isActive == false) {
+                                const deviceToken = check_join_roomDetails[0].sessionDetails.deviceToken;
+                                if (deviceToken && deviceToken != '' && deviceToken != undefined && deviceToken != null) {
+                                    const message: any = {
+                                        notification: {
+                                            title: data.message,
+                                            body: data.message,
+                                        },
+                                        data: {
+                                            roomId: data.roomId ?? '',
+                                            roomName: data.roomName ?? '',
+                                            send_timeStamp: (data.send_timeStamp).toString() ?? '',
+                                            sender_name: (data.sender_name ?? '').toString(),
+                                            sendBy: data.senderId ?? '',
+                                        },
+                                        token: deviceToken, // FCM device token
+                                    };
+                                    // console.log("check_join_roomDetails", check_join_roomDetails)
+
+                                    await sendMsg_notification(message);
+                                }
+                            }
+                        } else {
+                            const sessionDetails = await sessionModel.findOne({ userId: item.participantId, isDelete: false, status: true }, { deviceToken: 1 });
+                            const deviceToken = sessionDetails?.deviceToken;
                             if (deviceToken && deviceToken != '' && deviceToken != undefined && deviceToken != null) {
                                 const message: any = {
                                     notification: {
@@ -157,14 +181,16 @@ const save_chat_messages = async (data: chat_room_message) => {
                                         body: data.message,
                                     },
                                     data: {
-                                        roomId: data.roomId,
-                                        roomName: data.roomName,
-                                        send_timeStamp: data.send_timeStamp,
-                                        sender_name: data.sender_name,
-                                        sendBy: data.senderId,
+                                        roomId: data.roomId ?? '',
+                                        roomName: data.roomName ?? '',
+                                        send_timeStamp: (data.send_timeStamp).toString() ?? '',
+                                        sender_name: (data.sender_name ?? '').toString(),
+                                        sendBy: data.senderId ?? '',
                                     },
                                     token: deviceToken, // FCM device token
                                 };
+                                // console.log("check_join_roomDetails", check_join_roomDetails)
+
                                 await sendMsg_notification(message);
                             }
                         }
@@ -286,6 +312,7 @@ const socket_connection = async (io: any, emitter: any) => {
                         data.seenBy = userId;
                         await update_msg_status(data);
                     }
+                    console.log(data, "data");
                     // Notify others in the room except the user who saw the message
                     socket.to(data.roomId).emit('messageSeenByUser', data);
                 } catch (err) {

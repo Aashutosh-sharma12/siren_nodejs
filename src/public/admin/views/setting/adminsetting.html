@@ -15,7 +15,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Admin | SIREN</title>
+    <title>Admin | HI_ASTRO</title>
     <link rel="icon" href="../../admin/assets/img/astro.png" type="image">
 
     <link href="../../admin/assets/css/bootstrap.min.css" rel="stylesheet">
@@ -40,7 +40,7 @@
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
                         <li>
-                            <span class="m-r-sm text-muted welcome-message">Welcome to SIREN Admin </span>
+                            <span class="m-r-sm text-muted welcome-message">Welcome to HI_ASTRO Admin </span>
                         </li>
 
                         <li><a class="dropdown-item" onclick="logout()">Logout <img
@@ -54,11 +54,11 @@
                     <h2><strong>Application Setting </strong></h2>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="dashboard">Dashboard</a>
+                            <a href="dashboard">Home</a>
                         </li>
 
                         <li class="breadcrumb-item active">
-                            <strong>App Version</strong>
+                            <strong>Application Setting </strong>
                         </li>
                     </ol>
                 </div>
@@ -69,7 +69,7 @@
 
                         <div class="panel panel-primary " style="margin-top: 25px">
                             <div class="panel-heading">
-                                <h3 style="color: white; ">App Version</h3>
+                                <h3 style="color: white; ">Application Setting</h3>
                             </div>
                             <div class="ibox-content">
                                 <form id="appSettingsForm" onsubmit="update(); return false;">
@@ -77,9 +77,8 @@
                                         <div class="col-sm-6">
                                             <h4>Android User Version</h4>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="User Android Version"
-                                                    id="user_A" name="user_A" pattern="^[0-9]+(\.[0-9]+)+$" title="Only numbers and dots allowed (e.g., 1.2.3)"
-                                                    required>
+                                                <input type="number" class="form-control" placeholder="User Android Version"
+                                                    id="user_A" name="user_A" required>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
@@ -96,9 +95,8 @@
                                         <div class="col-lg-6">
                                             <h4>iOS User Version</h4>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="User iOS Version"
-                                                    id="user_I" name="user_I" pattern="^[0-9]+(\.[0-9]+)+$" pattern="^[0-9]+(\.[0-9]+)+$" title="Only numbers and dots allowed (e.g., 1.2.3)"
-                                                     required>
+                                                <input type="number" class="form-control" placeholder="User iOS Version"
+                                                    id="user_I" name="user_I" required>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">

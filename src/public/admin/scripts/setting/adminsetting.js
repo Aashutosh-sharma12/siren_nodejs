@@ -45,7 +45,7 @@ function update() {
         }
     }).done(function (data) {
         if(data.code === 200){
-            // alert('AppVersion updated successfully')
+            alert('AppVersion updated successfully')
             window.location.reload(); 
         }
     }).fail(function (jqXHR, textStatus, errorThrown) {

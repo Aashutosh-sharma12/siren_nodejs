@@ -205,8 +205,8 @@ const editSub = Joi.object({
 });
 
 const appVersionSchema = Joi.object({
-  androidVersion: Joi.string().required(),
-  iosVersion: Joi.string().required(),
+  androidVersion: Joi.number().required(),
+  iosVersion: Joi.number().required(),
   androidUpdate_Type: Joi.string().required().valid("Force","Normal"),
   iosUpdate_Type: Joi.string().required().valid("Force","Normal"),
 });
