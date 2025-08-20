@@ -12508,11 +12508,11 @@ ul.pagination > li > span {
 .bg_logo_login {
   background-color: #462085;
   height: 220px;
-  border-radius: 6px;
+  /* border-radius: 6px; */
 }
 
 .bg_blue_nav {
-  background: #007bff;
+  background: #462085 !important;
 }
 
 .h_fit_nodata {
@@ -12541,4 +12541,9 @@ ul.pagination > li > span {
   .bg_logo_login {
     height: 100px;
   }
+}
+
+.dashboard-title {
+  font-weight: 600;  /* bold */
+  color: #000000;    /* black */
 }

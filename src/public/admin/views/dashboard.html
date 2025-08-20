@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>SIREN</title>
-  <link rel="icon" href="../../admin/assets/img/iTunesArtwork@1x.png" type="image" />
+  <link rel="icon" href="../../admin/assets/img/Icon-App-83.5x83.5@2x.png" type="image" />
   <!-- Include jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -96,11 +96,10 @@
   <div id="wrapper" style="display: none">
     <navbar></navbar>
     <div id="page-wrapper" class="container-fluid gray-bg">
-      <div class="border-bottom">
-        <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
-          <h2 style="margin-left:20px;"><strong>Dashboard</strong></h2>
+      <div class="row border-bottom">
+        <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
           <div class="navbar-header">
-            <a class="navbar-minimalize minimalize-styl-2 menuBtn" href="#"><i class="fa fa-bars"></i>
+            <a class="navbar-minimalize minimalize-styl-2 menuBtn" href=""><i class="fa fa-bars"></i>
             </a>
             <form role="search" class="navbar-form-custom" action="search_results.html"></form>
           </div>
@@ -109,12 +108,16 @@
               <span class="m-r-sm text-muted welcome-message">Welcome to SIREN Admin
               </span>
             </li>
-
             <li>
               <a class="dropdown-item" onclick="logout()">Logout <img src="../../../admin/assets/img/logout .png" /></a>
             </li>
           </ul>
         </nav>
+      </div>
+      <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-4">
+          <h2 class="dashboard-title">Dashboard</h2>
+        </div>
       </div>
       <div class="container-fluid dashboard_container">
         <div class="row tab_pills_container">

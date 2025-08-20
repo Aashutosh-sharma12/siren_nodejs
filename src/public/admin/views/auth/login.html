@@ -32,31 +32,33 @@
 <body>
   <div class="d-flex vh-100 justify-content-center align-items-center bg-white">
     <div class="wrapper wrapper-content animated fadeInRight login">
-      <div class="ibox-title d-flex align-items-center justify-content-between bg_logo_login">
-        <h3 class="w-100 d-flex justify-content-center align-items-center">
-          <!-- <img src="../../admin/assets/img/text_logo.svg" class="login_logo" /> -->
-          <img src="../../admin/assets/img/Icon-App-83.5x83.5@2x.png" class="login_logo" />
+      <!-- <div class="ibox-title d-flex align-items-center justify-content-between bg_logo_login"> -->
+      <div style="text-align: center; background-color: #462085; padding: 20px;">
 
-        </h3>
+        <!-- <h3 class="w-100 d-flex justify-content-center align-items-center"> -->
+        <img src="../../admin/assets/img/Icon-App-83.5x83.5@2x.png" alt="Logo" class="logo" />
+        <!-- </h3> -->
       </div>
-      <form style="border: 2px solid #FFD400; padding: 20px; height: 300px; display: flex;" method="post" id="login_12l" enctype="multipart/form-data"
-        class="maxwidth" role="form">
+      <form style="border: 2px solid #462085; padding: 20px; height: 300px; display: flex;" method="post" id="login_12l"
+        enctype="multipart/form-data" class="maxwidth" role="form">
         <div class="row" style="margin: auto;">
           <div class="col-12 col-sm-12 form-group">
             <div class="">
-              <input type="text" class="form-control" id="email" name="email" style="padding: 26px 12px;" placeholder="Enter Email" required />
+              <input type="text" class="form-control" id="email" name="email" style="padding: 26px 12px;"
+                placeholder="Enter Email" required />
             </div>
           </div>
           <div class="col-12 col-sm-12 form-group">
             <div class="">
-              <input type="text" class="form-control" id="password" name="password" style="padding: 26px 12px;" placeholder="Password" required />
+              <input type="text" class="form-control" id="password" name="password" style="padding: 26px 12px;"
+                placeholder="Password" required />
             </div>
           </div>
           <div class="col-12 col-sm-12 col-md-12 col-lg-12 form-group">
             <div class="">
               <button id="addButton" style="
-                    background-color: #124880;
-                    border-color: #124880;
+                    background-color: #462085;
+                    border-color: #462085;
                     width: 100%; padding: 14px 12px;" type="button" class="btn btn-success btn-lg" onclick="login()">
                 Log In
               </button>
