@@ -32,7 +32,7 @@ const listUser = async (req: any, res: Response, next: NextFunction) => {
         { uniqueId: { $regex: search1, $options: "i" } },
         { $expr: { $regexMatch: { input: { $concat: ["$countryCode", "$phoneNumber"] }, regex: search1, options: "i" } } }
       ]
-      
+
     }
     if (fromDate && toDate) {
       const fromDate1 = new Date(fromDate)
@@ -178,7 +178,7 @@ const deleteUser = async (req: any, res: Response, next: NextFunction) => {
     const { id } = req.params;
     const updataeStatus = await userModel.findOneAndUpdate(
       { _id: id, isDelete: false },
-      { isDelete: false, onlineStatus: false },
+      { isDelete: true, onlineStatus: false },
       { new: true, fields: { countryCode: 1, name: 1, phoneNumber: 1 } }
     );
     if (updataeStatus) {
