@@ -286,7 +286,8 @@ const all_room_list1 = async (req: any, res: Response, next: NextFunction) => {
             },
             {
                 $addFields: {
-                    lastMessageTime: "$roomDetails.message_details.lastMessageTime"
+                    lastMessageTime: "$roomDetails.message_details.lastMessageTime",
+                    room_created_time: "$roomDetails.created_timeStamp"
                 }
             },
             {
@@ -295,7 +296,7 @@ const all_room_list1 = async (req: any, res: Response, next: NextFunction) => {
                 }
             },
             {
-                $sort: { lastMessageTime: -1 }
+                $sort: { lastMessageTime: -1, room_created_time: -1 }
             },
             // Second match: Search logic
             {
@@ -490,6 +491,7 @@ const all_room_list = async (req: any, res: Response, next: NextFunction) => {
                     userId: { $first: "$participantId" }, // only one userId per room
                     roomDetails: { $first: "$roomDetails" },
                     lastMessageTime: { $first: "$roomDetails.message_details.lastMessageTime" },
+                    // room_created_time: "$roomDetails.created_timeStamp"
                 }
             },
             // ✅ Search filtering logic
@@ -507,7 +509,9 @@ const all_room_list = async (req: any, res: Response, next: NextFunction) => {
                 }]
                 : []),
             {
-                $sort: { lastMessageTime: -1 }
+                $sort: {
+                    lastMessageTime: -1, 'roomDetails.created_timeStamp': - 1
+                }
             },
             {
                 $skip: Number(page * perPage) - Number(perPage)
@@ -527,7 +531,6 @@ const chatList = async (req: any, res: Response, next: NextFunction) => {
         const roomId = req.params.id;
         const { id } = req.user;
         const result = await all_participant_seen_msg({ roomId: roomId, userId: id });
-        console.log("result", result)
         if (result == true) {
             const [list, update_message_seen] = await Promise.all([
                 chat_room_messageModel.aggregate([
@@ -535,6 +538,11 @@ const chatList = async (req: any, res: Response, next: NextFunction) => {
                         $match: {
                             roomId: roomId,
                             isDelete: false
+                        }
+                    },
+                    {
+                        $sort: {
+                            send_timeStamp: -1
                         }
                     },
                     // Extract date string like "2025-07-29"

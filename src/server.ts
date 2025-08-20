@@ -11,7 +11,7 @@ import cors from "cors";
 import "@utils/cron_job";
 import { checkFileSize, upload, uploadSingleImage } from "@utils/multer";
 const app = express();
-import path from "path"
+import path from "path";
 import helmet from 'helmet';
 import morgan from 'morgan';
 import dotenv from 'dotenv';

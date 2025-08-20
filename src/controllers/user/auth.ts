@@ -151,9 +151,9 @@ const dd = async () => {
 const userInfo = async (req: any, res: Response, next: NextFunction) => {
     try {
         const { countryCode, phoneNumber } = req.query;
-        const userDetails = await userModel.findOne({ countryCode: "+" + countryCode, phoneNumber: phoneNumber, isDelete: false }, { countryCode: 1, phoneNumber: 1 });
+        const userDetails = await userModel.findOne({ countryCode: "+" + countryCode, phoneNumber: phoneNumber, isDelete: false }, { countryCode: 1, name: 1, image: 1, phoneNumber: 1 });
         if (userDetails) {
-            res.status(OK).json({ userExists: true, code: OK });
+            res.status(OK).json({ userExists: true, userDetails: userDetails, code: OK });
         } else {
             res.status(OK).json({ userExists: false, code: OK });
         }
