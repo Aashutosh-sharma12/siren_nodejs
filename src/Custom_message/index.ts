@@ -35,6 +35,7 @@ const messages = {
   already_exist_in_group: "Already added in this group",
   full_access: "The admin has granted you full access. Please log in again to continue.",
   alreadyExist_subscription: "Subscription with same title or type already exists",
+  updatedVersion_available: "Updated app version available"
 };
 
 export default messages;

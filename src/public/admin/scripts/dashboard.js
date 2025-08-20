@@ -31,9 +31,9 @@ function dashboardData() {
                             var statusButton = '<button type="button" class="btn btn-sm btn-success ml-2 mb-2" style="border-color:white" onclick= updateStatus1(' + '\'' + data.data.latestRegistered_List[i]._id + '\'' + "," + '\'' + data.data.latestRegistered_List[i].isActive + '\'' + ')>' + 'Active' + '</button>'
                         }
                         var index = i + 1
-                        let imageUrl =  "../../admin/assets/img/profileImage.png"
+                        let imageUrl = '../../admin/assets/img/user_image1.svg'
                         if (data.data.latestRegistered_List[i].image) {
-                            let imagePath = data.data.latestRegistered_List[i].image ||" ";
+                            let imagePath = data.data.latestRegistered_List[i].image || "";
                             let baseUrl = data.data.baseUrl;
                             // Remove any leading slash from imagePath before joining
                             imagePath = imagePath.startsWith("/") ? imagePath.slice(1) : imagePath;
@@ -46,7 +46,7 @@ function dashboardData() {
                             '<td><strong>' + (data.data.baseUrl + '/' + data.data.latestRegistered_List[i].name ? data.data.latestRegistered_List[i].name : 'N/A') + '</strong>' +
                             '<td><strong>' + (data.data.latestRegistered_List[i].countryCode + " " + data.data.latestRegistered_List[i].phoneNumber) + '</strong>' +
                             '<td><strong>' + (data.data.latestRegistered_List[i].email ? data.data.latestRegistered_List[i].email : 'N/A') + '</strong>' +
-                            '<td><strong>' + moment(data.data.latestRegistered_List[i].createdAt).format('YYYY-MM-DD,hh:mm A') + '</strong>' +
+                            '<td><strong>' + moment(data.data.latestRegistered_List[i].updatedAt).format('YYYY-MM-DD,hh:mm A') + '</strong>' +
                             status +
                             '</tr>'
                     }

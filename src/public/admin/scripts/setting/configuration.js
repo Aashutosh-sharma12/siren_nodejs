@@ -39,17 +39,6 @@ function submitPanicTime() {
   var panicDay = $("#panicDay").val();
   var panicHr = $("#panicHour").val();
   var panicMin = $("#panicMinute").val();
-
-  if (!panicDay && !panicHr && !panicMin) {
-    Swal.fire({
-      icon: 'warning',
-      title: 'Missing Value',
-      text: 'Please enter at least one value (Day, Hour or Minute).',
-      confirmButtonText: 'OK'
-    });
-    return;
-  }
-
   if (panicHr > 24) {
     Swal.fire({
       icon: 'warning',

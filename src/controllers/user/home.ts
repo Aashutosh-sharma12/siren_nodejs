@@ -3,6 +3,7 @@ import chat_room_messageModel from "@models/chat_message";
 import feedModel from "@models/feed";
 import chat_room_participantModel from "@models/participants";
 import userModel from "@models/user";
+import { CustomError } from "@utils/errors";
 import { all_participant_seen_msg, generate_timestamp_In_seconds } from "@utils/helpers";
 import { NextFunction, Response } from "express";
 import { StatusCodes } from "http-status-codes";
@@ -132,6 +133,7 @@ const contactList = async (req: any, res: Response, next: NextFunction) => {
 const all_room_list1 = async (req: any, res: Response, next: NextFunction) => {
     try {
         const { id } = req.user;
+        console.log(id, "id")
         const { page = 1, perPage = 10, search, isGroup = false } = req.query;
         const list = await chat_room_participantModel.aggregate([
             {
@@ -187,7 +189,8 @@ const all_room_list1 = async (req: any, res: Response, next: NextFunction) => {
                                                 {
                                                     $match: {
                                                         readStatus: false,
-                                                        isDelete: false
+                                                        isDelete: false,
+                                                        senderId: { $nin: [id] }
                                                     }
                                                 },
                                                 {
@@ -383,7 +386,8 @@ const all_room_list = async (req: any, res: Response, next: NextFunction) => {
                                                 {
                                                     $match: {
                                                         readStatus: false,
-                                                        isDelete: false
+                                                        isDelete: false,
+                                                        senderId: { $nin: [id] }
                                                     }
                                                 },
                                                 {
@@ -522,130 +526,135 @@ const chatList = async (req: any, res: Response, next: NextFunction) => {
     try {
         const roomId = req.params.id;
         const { id } = req.user;
-        const [list, update_message_seen] = await Promise.all([
-            chat_room_messageModel.aggregate([
-                {
-                    $match: {
-                        roomId: roomId,
-                        isDelete: false
-                    }
-                },
-                // Extract date string like "2025-07-29"
-                {
-                    $addFields: {
-                        date: {
-                            $dateToString: { format: "%Y-%m-%d", date: "$createdAt" }
-                        },
-                        sender_objId: { $toObjectId: "$senderId" },
-                        // Only convert actionId if not empty or null else null
-                        action_objId: {
-                            $cond: [
-                                { $and: [{ $ne: ["$actionId", null] }, { $ne: ["$actionId", ""] }] },
-                                { $toObjectId: "$actionId" },
-                                null
-                            ]
+        const result = await all_participant_seen_msg({ roomId: roomId, userId: id });
+        console.log("result", result)
+        if (result == true) {
+            const [list, update_message_seen] = await Promise.all([
+                chat_room_messageModel.aggregate([
+                    {
+                        $match: {
+                            roomId: roomId,
+                            isDelete: false
                         }
-                    }
-                },
-                {
-                    $lookup: {
-                        from: "users",
-                        let: { senderId: "$sender_objId" },
-                        pipeline: [
-                            {
-                                $match: {
-                                    $expr: {
-                                        $and: [
-                                            { $eq: ["$_id", "$$senderId"] }
-                                        ]
-                                    }
-                                }
+                    },
+                    // Extract date string like "2025-07-29"
+                    {
+                        $addFields: {
+                            date: {
+                                $dateToString: { format: "%Y-%m-%d", date: "$createdAt" }
                             },
-                            {
-                                $project: { name: 1, image: 1, isDelete: 1 }
+                            sender_objId: { $toObjectId: "$senderId" },
+                            // Only convert actionId if not empty or null else null
+                            action_objId: {
+                                $cond: [
+                                    { $and: [{ $ne: ["$actionId", null] }, { $ne: ["$actionId", ""] }] },
+                                    { $toObjectId: "$actionId" },
+                                    null
+                                ]
                             }
-                        ],
-                        as: "senderDetails"
-                    }
-                },
-                {
-                    $lookup: {
-                        from: "users",
-                        let: { actionId: "$action_objId" },
-                        pipeline: [
-                            {
-                                $match: {
-                                    $expr: {
-                                        $and: [
-                                            { $ne: ["$$actionId", null] },    // Only if actionId is not null
-                                            { $eq: ["$_id", "$$actionId"] }
-                                        ]
+                        }
+                    },
+                    {
+                        $lookup: {
+                            from: "users",
+                            let: { senderId: "$sender_objId" },
+                            pipeline: [
+                                {
+                                    $match: {
+                                        $expr: {
+                                            $and: [
+                                                { $eq: ["$_id", "$$senderId"] }
+                                            ]
+                                        }
                                     }
+                                },
+                                {
+                                    $project: { name: 1, image: 1, isDelete: 1 }
                                 }
-                            },
-                            {
-                                $project: { name: 1, image: 1, isDelete: 1 }
-                            }
-                        ],
-                        as: "actionDetails"
-                    }
-                },
-                {
-                    $addFields: {
-                        isSendByUser: {
-                            $cond: {
-                                if: { $eq: ["$senderId", id] },
-                                then: true,
-                                else: false
+                            ],
+                            as: "senderDetails"
+                        }
+                    },
+                    {
+                        $lookup: {
+                            from: "users",
+                            let: { actionId: "$action_objId" },
+                            pipeline: [
+                                {
+                                    $match: {
+                                        $expr: {
+                                            $and: [
+                                                { $ne: ["$$actionId", null] },    // Only if actionId is not null
+                                                { $eq: ["$_id", "$$actionId"] }
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    $project: { name: 1, image: 1, isDelete: 1 }
+                                }
+                            ],
+                            as: "actionDetails"
+                        }
+                    },
+                    {
+                        $addFields: {
+                            isSendByUser: {
+                                $cond: {
+                                    if: { $eq: ["$senderId", id] },
+                                    then: true,
+                                    else: false
+                                }
                             }
                         }
-                    }
-                },
-                {
-                    $project: {
-                        roomId: 0, isActive: 0, updatedAt: 0
-                    }
-                },
-                // Group by date
-                {
-                    $group: {
-                        _id: "$date",
-                        messages: {
-                            $push: {
-                                message: "$message",
-                                messageType: "$messageType",
-                                send_timeStamp: "$send_timeStamp",
-                                createdAt: "$createdAt",
-                                senderDetails: "$senderDetails",
-                                isSendByUser: "$isSendByUser",
-                                readStatus: "$readStatus",
-                                seen_details: "$seen_details"
+                    },
+                    {
+                        $project: {
+                            roomId: 0, isActive: 0, updatedAt: 0
+                        }
+                    },
+                    // Group by date
+                    {
+                        $group: {
+                            _id: "$date",
+                            messages: {
+                                $push: {
+                                    message: "$message",
+                                    messageType: "$messageType",
+                                    send_timeStamp: "$send_timeStamp",
+                                    createdAt: "$createdAt",
+                                    senderDetails: "$senderDetails",
+                                    isSendByUser: "$isSendByUser",
+                                    readStatus: "$readStatus",
+                                    seen_details: "$seen_details"
+                                }
                             }
                         }
+                    },
+                    // Optional: sort groups (e.g., newest date first)
+                    {
+                        $sort: { _id: 1 }
                     }
-                },
-                // Optional: sort groups (e.g., newest date first)
-                {
-                    $sort: { _id: 1 }
-                }
-            ]),
-            chat_room_messageModel.updateMany({
-                roomId: roomId, senderId: { $ne: id },
-                seen_details: {
-                    $elemMatch: {
-                        participantId: id,
-                        status: { $ne: "seen" }
+                ]),
+                chat_room_messageModel.updateMany({
+                    roomId: roomId, senderId: { $ne: id },
+                    seen_details: {
+                        $elemMatch: {
+                            participantId: id,
+                            status: { $ne: "seen" }
+                        }
                     }
-                }
-            }, {
-                $set: {
-                    "seen_details.$.status": "seen",
-                    "seen_details.$.seen_timeStamp": generate_timestamp_In_seconds()
-                }
-            })
-        ]);
-        await all_participant_seen_msg({ roomId: roomId, userId: id });
-        res.status(OK).json({ code: OK, data: list, image_baseUrl: process.env.Bucket_Base_Url })
+                }, {
+                    $set: {
+                        "seen_details.$.status": "seen",
+                        "seen_details.$.seen_timeStamp": generate_timestamp_In_seconds()
+                    }
+                })
+            ]);
+            res.status(OK).json({ code: OK, data: list, image_baseUrl: process.env.Bucket_Base_Url })
+        } else {
+            throw new CustomError(messages.noDatafoundWithID, StatusCodes.NOT_FOUND)
+        }
     } catch (err) {
         next(err);
     }

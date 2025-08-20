@@ -7,7 +7,8 @@ import path from 'path';
 import dotenv from 'dotenv';
 import commandLineArgs from 'command-line-args';
 
-//s
+
+
 (() => {
     // Setup command line options
     const options = commandLineArgs([
