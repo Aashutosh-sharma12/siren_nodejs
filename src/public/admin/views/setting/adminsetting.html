@@ -16,7 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Admin | SIREN</title>
-    <link rel="icon" href="../../admin/assets/img/astro.png" type="image">
+    <link rel="icon" href="../../admin/assets/img/Icon-App-83.5x83.5@2x.png" type="image">
 
     <link href="../../admin/assets/css/bootstrap.min.css" rel="stylesheet">
     <script src="../../admin/scripts/common/pipeline.js"></script>
@@ -51,12 +51,14 @@
             </div>
             <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-lg-10">
-                    <h2><strong>Application Setting </strong></h2>
+                    <h2 class="dashboard-title">Application Setting </h2>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
                             <a href="dashboard">Dashboard</a>
                         </li>
-
+                        <li class="breadcrumb-item">
+                            <a href="adminsetting">Application Setting</a>
+                        </li>
                         <li class="breadcrumb-item active">
                             <strong>App Version</strong>
                         </li>
@@ -77,9 +79,10 @@
                                         <div class="col-sm-6">
                                             <h4>Android User Version</h4>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="User Android Version"
-                                                    id="user_A" name="user_A" pattern="^[0-9]+(\.[0-9]+)+$" title="Only numbers and dots allowed (e.g., 1.2.3)"
-                                                    required>
+                                                <input type="text" class="form-control"
+                                                    placeholder="User Android Version" id="user_A" name="user_A"
+                                                    pattern="^[0-9]+(\.[0-9]+)+$"
+                                                    title="Only numbers and dots allowed (e.g., 1.2.3)" required>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
@@ -97,8 +100,9 @@
                                             <h4>iOS User Version</h4>
                                             <div class="form-group">
                                                 <input type="text" class="form-control" placeholder="User iOS Version"
-                                                    id="user_I" name="user_I" pattern="^[0-9]+(\.[0-9]+)+$" pattern="^[0-9]+(\.[0-9]+)+$" title="Only numbers and dots allowed (e.g., 1.2.3)"
-                                                     required>
+                                                    id="user_I" name="user_I" pattern="^[0-9]+(\.[0-9]+)+$"
+                                                    pattern="^[0-9]+(\.[0-9]+)+$"
+                                                    title="Only numbers and dots allowed (e.g., 1.2.3)" required>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
@@ -116,7 +120,7 @@
                                     </div>
                                 </form>
                             </div>
-                            
+
                         </div>
                     </div>
 
@@ -176,12 +180,13 @@
             padding: 0;
             border: none;
         }
+
         #appSettingsForm .modal-footer {
             border-top: none;
             padding-top: 0;
         }
     </style>
-    
+
 
 </body>
 
