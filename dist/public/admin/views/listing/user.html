@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Admin | SIREN</title>
-  <link rel="icon" href="../../admin/assets/img/astro.png" type="image" />
+  <link rel="icon" href="../../admin/assets/img/Icon-App-83.5x83.5@2x.png" type="image" />
 
   <!-- Include jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -88,13 +88,13 @@
       </div>
       <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-4">
-          <h2><strong>All Users </strong></h2>
+          <h2 class="dashboard-title">All Users</h2>
         </div>
         <div class="col-lg-8">
           <div class="d-flex align-items-center mt-3 justify-content-end">
             <input type="text" style="width: 400px; height: 38px; margin-right: 4px" class="form-control"
-              oninput="validate(this)" placeholder="Search by User Name, CustomerId, Phone Number and Email" name="search"
-              id="fog" />
+              oninput="validate(this)" placeholder="Search by User Name, CustomerId, Phone Number and Email"
+              name="search" id="fog" />
             <button style="margin-right: 25px" type="button" id="btnId" class="btn btn-info btn-lg"
               onclick="userList();">
               <strong>Search</strong>
@@ -188,7 +188,7 @@
                 <div class="form-group">
                   <label>Status</label>
                   <select class="form-control" id="status1" name="status1" disabled
-                          style="appearance:none;-webkit-appearance:none;-moz-appearance:none;background-image:none;">
+                    style="appearance:none;-webkit-appearance:none;-moz-appearance:none;background-image:none;">
                     <option value=true>Active</option>
                     <option value=false>Inactive</option>
                   </select>
