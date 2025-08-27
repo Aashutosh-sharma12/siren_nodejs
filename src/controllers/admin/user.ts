@@ -172,7 +172,7 @@ const updateStatus = async (req: any, res: Response, next: NextFunction) => {
     next(error);
   }
 }
-
+//kk
 const deleteUser = async (req: any, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
